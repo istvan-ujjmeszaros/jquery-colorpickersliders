@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>jQuery Color Picker Sliders</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="An advanced color selector with support for human perceived lightness (it works in the CIELab color space).">
+        <meta name="author" content="István Ujj-Mészáros">
+
+        <meta itemprop="name" content="jQuery Color Picker Sliders">
+        <meta itemprop="description" content="An advanced color selector with support for human perceived lightness (it works in the CIELab color space).">
+        <meta itemprop="image" content="http://www.virtuosoft.eu/code/jquery-colorpickersliders/preview/jquery-colorpickersliders.jpg">
+
+        <script src="libraries/modernizr/modernizr-custom.min.js"></script>
+
+        <link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+        <link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" media="all">
+        <link href="libraries/prettify/prettify.css" rel="stylesheet" type="text/css" media="all">
+        <link href="jquery-colorpickersliders/jquery.colorpickersliders.css" rel="stylesheet" type="text/css" media="all">
+
+        <script src="libraries/jquery-1.9.0.min.js"></script>
+        <script src="libraries/prettify/prettify.js"></script>
+        <script src="libraries/jquery.hammer.js"></script>
+        <script src="libraries/tinycolor.js"></script>
+        <script src="jquery-colorpickersliders/jquery.colorpickersliders.js"></script>
+
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a href="http://www.virtuosoft.eu/code/jquery-colorpickersliders/"><span class="brand">jQuery Color Picker Sliders</span></a>
+                    <a class="btn btn-link pull-right" href="https://github.com/istvan-ujjmeszaros/jquery-colorpickersliders" target="_blank">github project page</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid" style="max-width:920px;margin:0 auto;">
+            <div class="row-fluid">
+
+                <h1>jQuery Color Picker Sliders<small> with human color perception</small></h1>
+
+                <span class="demo1"></span>
+                <script>
+                    $(".demo1").ColorPickerSliders({
+                        flat: true,
+                        color: 'orange',
+                        order: {
+                            cie: 1
+                        },
+                        labels: {
+                            cielightness: 'Human perceived lightness',
+                            ciechroma: 'Chroma',
+                            ciehue: 'Hue'
+                        }
+                    });
+                </script>
+
+                <h2>Why working with CIE Lch color model is good?</h2>
+
+                <p>
+                    This color picker can work internally in the CIE Lab color space, represented with the CIE Lch color model. The benefit is the consistent lightness and chroma values between the different colors, so it can represent yellow and blue with the same human perceived lightness. This is not the case with the more known RGB or HSL color models, where yellow is much brighter than blue. Altough, this color picker supports them as well, due to the fact that these are the supported color representations in CSS3.
+                </p>
+                <h2>What is the drawback of using CIE Lch?</h2>
+                <p>
+                    In CIE Lch model, there are colors that can not be converted to RGB values (for example there is no dark yellow color with high chroma value). When there is an Lch variation that can not be represented in the RGB color space, then the color picker searches for the highest possible chroma value for that particular color (for example the only valid chroma value for black or white colors is 0), and uses the lowered chroma value for conversion. This way the color's hue and the lightness will not distorted.
+                </p>
+
+                <h3>CIE Lch color picker with hidden invalid color ranges</h3>
+
+                <p>
+                    The position markers on the sliders are always shows an exclamation mark when the actual Lch setting can not be converted to an RGB value, but there is more to it! You can make the invalid colors invisible or semi-transparent using the <code>invalidcolorsopacity</code> setting. This way it is easier to find different hues or lightness with the same chroma.<br>
+                    You can notice that the preview shows the actual color with the highest possible chroma value. See it in action:
+                </p>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <pre class="prettyprint">
+&lt;span class=&quot;cielch-demo2&quot;&gt;&lt;/span&gt;
+
+$(".cielch-demo2").ColorPickerSliders({
+    flat: true,
+    invalidcolorsopacity: 0.2,
+    order: {
+        cie: 1,
+        preview: 2
+    }
+});</pre>
+                    </div>
+                    <div class="span6">
+                        <span class="cielch-demo2"></span>
+                        <script>
+                            $(".cielch-demo2").ColorPickerSliders({
+                                flat: true,
+                                invalidcolorsopacity: 0.2,
+                                order: {
+                                    cie: 1,
+                                    preview: 2
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+
+                <h3>RGB Color Picker</h3>
+
+                <p>
+                    The following demo uses the RGB and opacity sliders.
+                </p>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <pre class="prettyprint">
+&lt;span class=&quot;rgb-demo&quot;&gt;&lt;/span&gt;
+
+$(".rgb-demo").ColorPickerSliders({
+    flat: true,
+    order: {
+        rgb: 1,
+        opacity: 2
+    }
+});</pre>
+                    </div>
+                    <div class="span6">
+                        <span class="rgb-demo"></span>
+                        <script>
+                            $(".rgb-demo").ColorPickerSliders({
+                                flat: true,
+                                order: {
+                                    rgb: 1,
+                                    opacity: 2
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+
+                <h3>HSL Color Picker</h3>
+
+                <p>
+                    The following demo uses the HSL sliders with preview.
+                </p>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <pre class="prettyprint">
+&lt;span class=&quot;hsl-demo&quot;&gt;&lt;/span&gt;
+
+$(".hsl-demo").ColorPickerSliders({
+    flat: true,
+    order: {
+        hsl: 1,
+        preview: 2
+    }
+});</pre>
+                    </div>
+                    <div class="span6">
+                        <span class="hsl-demo"></span>
+                        <script>
+                            $(".hsl-demo").ColorPickerSliders({
+                                flat: true,
+                                order: {
+                                    hsl: 1,
+                                    preview: 2
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+
+                <h3>Popup on any element</h3>
+
+                <p>
+                    The following example is linked to different elements and rendered in popups.
+                </p>
+                <pre class="prettyprint">
+&lt;input id=&quot;color&quot; type=&quot;text&quot; class=&quot;demo-popup&quot; value=&quot;#56B29A&quot; data-color-format=&quot;hex&quot;&gt;
+&lt;button type=&quot;button&quot; class=&quot;demo-popup&quot;&gt;button&lt;/button&gt;
+&lt;span class=&quot;demo-popup&quot;&gt;span&lt;/span&gt;
+&lt;a class=&quot;demo-popup&quot;&gt;link&lt;/a&gt;
+
+$('.demo-popup').ColorPickerSliders({
+    previewontriggerelement: true,
+    flat: false,
+    color: '#cf966f',
+    order: {
+        rgb: 1,
+        preview: 2
+    }
+});</pre>
+                <form class="form-horizontal" action="#">
+                <div class="control-group">
+                    <label class="control-label" for="color">Color: </label>
+                    <div class="controls controls-row">
+                        <input id="color" type="text" class="demo-popup" value="#56B29A" data-color-format="hex">
+                        <button type="button" class="btn demo-popup">button</button>
+                        <span class="demo-popup">span</span>
+                        <a class="demo-popup">link</a>
+                    </div>
+                </div>
+                </form>
+                <script>
+                    $('.demo-popup').ColorPickerSliders({
+                        previewontriggerelement: true,
+                        flat: false,
+                        color: '#cf966f',
+                        order: {
+                            rgb: 1,
+                            preview: 2
+                        }
+                    });
+                </script>
+
+                <h3>A full-blown example showing all the sliders in action</h3>
+
+                <p>
+                    The following demo uses all the sliders, and connects to a bunch of inputs to show the actual color values in different formats. The color format can be set on the inputs <code>data-color-format</code> property.
+                </p>
+                <p>
+                    The color can be updated via the connected inputs. The plugin uses the excellent <a href="https://github.com/bgrins/TinyColor" target="_blank">Tiny Color</a> plugin, so it can handle all valid CSS color formats.
+                </p>
+                 <pre class="prettyprint">
+&lt;input type=&quot;text&quot; class=&quot;full-demo-input&quot; data-color-format=&quot;hsl&quot;&gt;
+&lt;input type=&quot;text&quot; class=&quot;full-demo-input&quot; data-color-format=&quot;hex&quot;&gt;
+&lt;input type=&quot;text&quot; class=&quot;full-demo full-demo-input&quot; data-color-format=&quot;rgb&quot;&gt;
+
+$(".full-demo").ColorPickerSliders({
+    flat: true,
+    invalidcolorsopacity: 0,
+    connectedinput: '.full-demo-input'
+});</pre>
+                <div class="control-group">
+                    <div class="controls controls-row">
+                        <input type="text" class="full-demo-input" data-color-format="hsl">
+                        <input type="text" class="full-demo-input" data-color-format="hex">
+                        <input type="text" class="full-demo full-demo-input" data-color-format="rgb">
+                    </div>
+                </div>
+                <script>
+                    $(".full-demo").ColorPickerSliders({
+                        flat: true,
+                        invalidcolorsopacity: 0,
+                        connectedinput: '.full-demo-input'
+                    });
+                </script>
+            </div>
+
+            <div class='row-fluid'>
+                <div class="span12">
+                    <h3>Settings</h3>
+                    <dl class="dl-horizontal">
+                        <dt><code>color</code></dt>
+                        <dd>This is the initial color if there is no valid (any CSS formatted) color value on the connected input element. Can be in any format that <a href="https://github.com/bgrins/TinyColor" target="_blank">Tiny Color supports</a>.</dd>
+
+                        <dt><code>connectedinput</code></dt>
+                        <dd><code><strong>selector or jQuery object</strong></code>: The connected input elements value will be automatically updated in sync with the color picker. The color format which the color is represented i the input can be set via the <code>data-color-format</code> property. It can be any of <code>hex</code>, <code>hsl</code> or <code>rgb</code>. If it is hex, then the opacity will be discarded.</dd>
+
+                        <dt><code>flat</code></dt>
+                        <dd><code><strong>false</strong></code>: The color picker is rendered in a popup, which is shown on focus of the connected element.</dd>
+                        <dd><code>true</code>: The color picker is rendered right after the connected element, and is always visible.</dd>
+
+                        <dt><code>previewontriggerelement</code></dt>
+                        <dd><code><strong>true</strong></code>: Preview of the color on the connected element's background.</dd>
+                        <dd><code>false</code>: No preview on the connected element.</dd>
+
+                        <dt><code>previewcontrasttreshold</code></dt>
+                        <dd><code><strong>30</strong></code>: If <code>previewontriggerelement</code> is enabled, then if the lightness is below of this value, the element's text color will be white. Otherwise the text is black.</dd>
+
+                        <dt><code>erroneousciecolormarkers</code></dt>
+                        <dd><code><strong>true</strong></code>: Unconvertable CIE colors are marked with an exclamation mark on the CIE sliders level marker.</dd>
+                        <dd><code>false</code>: No exclamation mark on the markers.
+
+                        <dt><code>invalidcolorsopacity</code></dt>
+                        <dd><code><strong>1</strong></code>: Opacity of the invalid (unconvertable) area of the CIE sliders.</dd>
+
+                        <dt><code>finercierangeedges</code></dt>
+                        <dd><code><strong>true</strong></code>: Sharper, more accurate edges of the valid CIE ranges on the sliders.</dd>
+                        <dd><code><strong>false</strong></code>: Smoother edges of the valid CIE ranges on the sliders.</dd>
+
+                        <dt><code>onchange</code></dt>
+                        <dd><code>function(container, color)</code>: This function is triggered when the color is changed with the sliders or via a connected input. The <code>color</code> parameter holds the actual color object in the following formats: rgb object, hsl object, cie lch object, <a href="https://github.com/bgrins/TinyColor" target="_blank">Tiny Color</a> object.</dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <h3>Download</h3>
+                <p><a href="https://github.com/istvan-ujjmeszaros/jquery-colorpickersliders" target="_blank">Download</a> from github. Please report issues and suggestions to github's issue tracker or contact me on <a href="https://plus.google.com/101242556570448529330/posts" target="_blank">g+</a> or <a href="https://twitter.com/styu007" target="_blank">twitter</a>!</p>
+            </div>
+
+        </div>
+
+        <script>
+            prettyPrint();
+        </script>
+
