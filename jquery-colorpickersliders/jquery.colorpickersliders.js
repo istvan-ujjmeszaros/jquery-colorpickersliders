@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v1.0.3
+ *  v1.0.4
  *
  *  An advanced color selector with support for human perceived
  *  lightness (it works in the CIELab color space), and designed to work
@@ -160,7 +160,7 @@
                 }
 
                 if (settings.order.preview !== false) {
-                    sliders[settings.order.preview] = '<div class="cp-slider cp-preview cp-transparency"><span>' + settings.labels.preview + '</span></div>';
+                    sliders[settings.order.preview] = '<div class="cp-preview cp-transparency"><span>' + settings.labels.preview + '</span></div>';
                 }
 
                 color_picker_html += '<div class="cp-sliders">';
@@ -179,7 +179,12 @@
                     color_picker_html += '</div>';
                 }
 
-                container = $('<div class="cp-container"></div>').insertAfter(triggerelement);
+                if (settings.flat) {
+                    container = $('<div class="cp-container"></div>').insertAfter(triggerelement);
+                }
+                else {
+                    container = $('<div class="cp-container"></div>').appendTo('body');
+                }
 
                 container.append(color_picker_html);
 
@@ -263,7 +268,7 @@
                 $('.cp-container.cp-popup').hide();
 
                 var viewportwidth = $(window).width(),
-                    offsetleft = triggerelement.offset().left,
+                    offset = triggerelement.offset(),
                     popuporiginalwidth;
 
                 popuporiginalwidth = container.data('popup-original-width');
@@ -273,15 +278,17 @@
                     container.data('popup-original-width', popuporiginalwidth);
                 }
 
-                if (offsetleft + popuporiginalwidth + 12 <= viewportwidth) {
-                    container.css('left', offsetleft).width(popuporiginalwidth).show();
+                if (offset.left + popuporiginalwidth + 12 <= viewportwidth) {
+                    container.css('left', offset.left).width(popuporiginalwidth);
                 }
                 else if (popuporiginalwidth <= viewportwidth) {
-                    container.css('left',viewportwidth - popuporiginalwidth - 12).width(popuporiginalwidth).show();
+                    container.css('left',viewportwidth - popuporiginalwidth - 12).width(popuporiginalwidth);
                 }
                 else {
-                    container.css('left', 0).width(viewportwidth - 12).show();
+                    container.css('left', 0).width(viewportwidth - 12);
                 }
+
+                container.css('top', offset.top + triggerelement.outerHeight()).show();
             }
 
             function hidePopup()

@@ -8,15 +8,17 @@
     background:url(data:image/gif;base64,R0lGODlhBgAGAIABAMPDw////yH5BAEKAAEALAAAAAAGAAYAAAIKhIMGGMrs0pGgAAA7) repeat;
 }
 
-.cp-container .cp-slider {
+.cp-container .cp-slider,
+.cp-container .cp-preview {
     width: auto;
     height: 26px;
     border: 1px solid #dadada;
     margin: 0 4px;
     margin-bottom: 5pt;
     position: relative;
-    /*border-radius: 3px;*/
-    /*box-shadow: 0 3px 5px -2px rgba(0,0,0,0.27);*/
+}
+
+.cp-container .cp-slider {
     cursor: ew-resize;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -24,16 +26,12 @@
     user-select: none;
 }
 
-.cp-container .cp-slider.cp-preview {
-    cursor: default;
+.cp-container .cp-preview {
     height: 39px;
 }
 
-.cp-container .cp-slider.cp-preview span {
-    line-height: 39px;
-}
-
-.cp-container .cp-slider span {
+.cp-container .cp-slider span,
+.cp-container .cp-preview span {
     display: block;
     width: 100%;
     height: 100%;
@@ -41,6 +39,10 @@
     font-family: sans-serif;
     line-height: 26px;
     font-size: 14px;
+}
+
+.cp-container .cp-preview span {
+    line-height: 39px;
 }
 
 .cp-container .cp-marker {
