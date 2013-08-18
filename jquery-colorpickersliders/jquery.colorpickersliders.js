@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v1.0.4
+ *  v1.1.0
  *
  *  An advanced color selector with support for human perceived
  *  lightness (it works in the CIELab color space), and designed to work
@@ -160,7 +160,7 @@
                 }
 
                 if (settings.order.preview !== false) {
-                    sliders[settings.order.preview] = '<div class="cp-preview cp-transparency"><span>' + settings.labels.preview + '</span></div>';
+                    sliders[settings.order.preview] = '<div class="cp-preview cp-transparency"><input type="text" readonly="readonly"></div>';
                 }
 
                 color_picker_html += '<div class="cp-sliders">';
@@ -208,7 +208,7 @@
             {
                 elements = {
                     connectedinput: false,
-                    all_sliders: $(".cp-sliders", container),
+                    all_sliders: $(".cp-sliders, .cp-preview input", container),
                     sliders: {
                         hue: $(".cp-hslhue span", container),
                         hue_marker: $(".cp-hslhue .cp-marker", container),
@@ -230,7 +230,7 @@
                         ciechroma_marker: $(".cp-ciechroma .cp-marker", container),
                         ciehue: $(".cp-ciehue span", container),
                         ciehue_marker: $(".cp-ciehue .cp-marker", container),
-                        preview: $(".cp-preview span", container)
+                        preview: $(".cp-preview input", container)
                     }
                 };
 
@@ -621,10 +621,6 @@
 
             function updateAllElements()
             {
-                if (settings.previewontriggerelement) {
-                    triggerelement.css('background', color.tiny.toRgbString()).css('color', (100 - color.cielch.l) * color.cielch.a < settings.previewcontrasttreshold ? '#000' : '#fff');
-                }
-
                 if (settings.order.opacity !== false) {
                     renderOpacity();
                 }
@@ -651,9 +647,15 @@
 
                 if ((100 - color.cielch.l) * color.cielch.a < settings.previewcontrasttreshold) {
                     elements.all_sliders.css('color', '#000');
+                    if (settings.previewontriggerelement) {
+                        triggerelement.css('background', color.tiny.toRgbString()).css('color', '#000');
+                    }
                 }
                 else {
                     elements.all_sliders.css('color', '#fff');
+                    if (settings.previewontriggerelement) {
+                        triggerelement.css('background', color.tiny.toRgbString()).css('color', '#fff');
+                    }
                 }
 
                 settings.onchange(container, color);
@@ -680,6 +682,10 @@
                                 break;
                         }
                     });
+                }
+
+                if (settings.order.preview !== false) {
+                    elements.sliders.preview.val(color.tiny.toRgbString());
                 }
             }
 
