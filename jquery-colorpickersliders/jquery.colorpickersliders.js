@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v1.2.0
+ *  v1.2.1
  *
  *  An advanced color selector with support for human perceived
  *  lightness (it works in the CIELab color space), and designed to work
@@ -455,6 +455,10 @@ console.log(ev);
                     updateAllElements();
 
                     ev.preventDefault();
+                });
+
+                elements.sliders.preview.on("click", function(){
+                    this.select();
                 });
 
                 $(document).on("touchmove mousemove", function(ev) {
