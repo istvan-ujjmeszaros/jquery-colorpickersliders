@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v1.2.1
+ *  v1.2.2
  *
  *  An advanced color selector with support for human perceived
  *  lightness (it works in the CIELab color space), and designed to work
@@ -134,7 +134,7 @@
                 color.rgba = color.tiny.toRgb();
                 color.cielch = $.fn.ColorPickerSliders.rgb2lch(color.rgba);
 
-                updateAllElements();
+                updateAllElementsTimer();
             }
 
             function buildHtml()
@@ -344,7 +344,7 @@ console.log(ev);
 
                     updateColor('hsla', 'h', 3.6 * percent);
 
-                    updateAllElements();
+                    updateAllElementsTimer();
 
                     ev.preventDefault();
                 });
@@ -356,7 +356,7 @@ console.log(ev);
 
                     updateColor('hsla', 's', percent / 100);
 
-                    updateAllElements();
+                    updateAllElementsTimer();
 
                     ev.preventDefault();
                 });
@@ -368,7 +368,7 @@ console.log(ev);
 
                     updateColor('hsla', 'l', percent / 100);
 
-                    updateAllElements();
+                    updateAllElementsTimer();
 
                     ev.preventDefault();
                 });
@@ -380,7 +380,7 @@ console.log(ev);
 
                     updateColor('hsla', 'a', percent / 100);
 
-                    updateAllElements();
+                    updateAllElementsTimer();
 
                     ev.preventDefault();
                 });
@@ -392,7 +392,7 @@ console.log(ev);
 
                     updateColor('rgba', 'r', 2.55 * percent);
 
-                    updateAllElements();
+                    updateAllElementsTimer();
 
                     ev.preventDefault();
                 });
@@ -404,7 +404,7 @@ console.log(ev);
 
                     updateColor('rgba', 'g', 2.55 * percent);
 
-                    updateAllElements();
+                    updateAllElementsTimer();
 
                     ev.preventDefault();
                 });
@@ -416,7 +416,7 @@ console.log(ev);
 
                     updateColor('rgba', 'b', 2.55 * percent);
 
-                    updateAllElements();
+                    updateAllElementsTimer();
 
                     ev.preventDefault();
                 });
@@ -428,7 +428,7 @@ console.log(ev);
 
                     updateColor('cielch', 'l', (MAXLIGHT / 100) * percent);
 
-                    updateAllElements();
+                    updateAllElementsTimer();
 
                     ev.preventDefault();
                 });
@@ -440,7 +440,7 @@ console.log(ev);
 
                     updateColor('cielch', 'c', (MAXVALIDCHROMA / 100) * percent);
 
-                    updateAllElements();
+                    updateAllElementsTimer();
 
                     ev.preventDefault();
                 });
@@ -452,7 +452,7 @@ console.log(ev);
 
                     updateColor('cielch', 'h', 3.6 * percent);
 
-                    updateAllElements();
+                    updateAllElementsTimer();
 
                     ev.preventDefault();
                 });
@@ -502,7 +502,7 @@ console.log(ev);
                             break;
                     }
 
-                    updateAllElements();
+                    updateAllElementsTimer();
 
                     ev.preventDefault();
                 });
@@ -528,7 +528,7 @@ console.log(ev);
                             color.rgba = tinycolor($input.val()).toRgb();
                             color.cielch = $.fn.ColorPickerSliders.rgb2lch(color.rgba);
 
-                            updateAllElements();
+                            updateAllElementsTimer();
                         }
                         else {
                             return false;
@@ -619,6 +619,13 @@ console.log(ev);
                 return percent;
             }
 
+            var updateAllElementsTimeout;
+
+            function updateAllElementsTimer()
+            {
+                updateAllElementsTimeout = setTimeout(updateAllElements, 100);
+            }
+
             function updateAllElements()
             {
                 if (settings.order.opacity !== false) {
@@ -659,6 +666,8 @@ console.log(ev);
                 }
 
                 settings.onchange(container, color);
+
+                clearTimeout(updateAllElementsTimeout);
             }
 
             function updateConnectedInput()
