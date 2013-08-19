@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v1.1.0
+ *  v1.2.0
  *
  *  An advanced color selector with support for human perceived
  *  lightness (it works in the CIELab color space), and designed to work
@@ -29,7 +29,6 @@
  *  Requirements:
  *
  *      TinyColor: https://github.com/bgrins/TinyColor
- *      hammer.js: https://github.com/EightMedia/hammer.js
  *
  *  Using color math algorithms from EasyRGB Web site:
  *      http://www.easyrgb.com/index.php?X=MATH
@@ -298,10 +297,6 @@
 
             function bindevents()
             {
-                var hammer_cp = $(container).hammer({
-                        drag_min_distance: 1
-                    });
-
                 if (!settings.flat) {
                     // we need tabindex defined to be focusable
                     if (typeof triggerelement.attr("tabindex") === "undefined") {
@@ -311,13 +306,13 @@
                     // buttons doesn't get focus in webkit browsers
                     // https://bugs.webkit.org/show_bug.cgi?id=22261
                     if (triggerelement.is("button")) {
-                        $(triggerelement).hammer().on("tap touch", function(ev){
+                        $(triggerelement).on("click", function(ev){
                             showPopup();
 
                             ev.stopPropagation();
                         });
 
-                        $(document).hammer().on("tap", function(){
+                        $(document).on("click", function(){
                             hidePopup();
                         });
                     }
@@ -334,7 +329,7 @@
                         ev.stopPropagation();
                     });
 
-                    hammer_cp.on("touch tap", function(ev) {
+                    container.on("click", function(ev) {
                         ev.gesture.preventDefault();
                         ev.stopPropagation();
 
@@ -342,142 +337,132 @@
                     });
                 }
 
-                hammer_cp.on("touch", ".cp-hslhue", function(ev) {
+                elements.sliders.hue.on("touchstart mousedown", function(ev) {
                     dragTarget = "hue";
-
-                    var percent = updateMarkerPosition(dragTarget, ev.gesture.center);
+console.log(ev);
+                    var percent = updateMarkerPosition(dragTarget, ev);
 
                     updateColor('hsla', 'h', 3.6 * percent);
 
                     updateAllElements();
 
-                    ev.gesture.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault();
                 });
 
-                hammer_cp.on("touch", ".cp-hslsaturation", function(ev) {
+                elements.sliders.saturation.on("touchstart mousedown", function(ev) {
                     dragTarget = "saturation";
 
-                    var percent = updateMarkerPosition(dragTarget, ev.gesture.center);
+                    var percent = updateMarkerPosition(dragTarget, ev);
 
                     updateColor('hsla', 's', percent / 100);
 
                     updateAllElements();
 
-                    ev.gesture.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault();
                 });
 
-                hammer_cp.on("touch", ".cp-hsllightness", function(ev) {
+                elements.sliders.lightness.on("touchstart mousedown", function(ev) {
                     dragTarget = "lightness";
 
-                    var percent = updateMarkerPosition(dragTarget, ev.gesture.center);
+                    var percent = updateMarkerPosition(dragTarget, ev);
 
                     updateColor('hsla', 'l', percent / 100);
 
                     updateAllElements();
 
-                    ev.gesture.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault();
                 });
 
-                hammer_cp.on("touch", ".cp-opacity", function(ev) {
+                elements.sliders.opacity.on("touchstart mousedown", function(ev) {
                     dragTarget = "opacity";
 
-                    var percent = updateMarkerPosition(dragTarget, ev.gesture.center);
+                    var percent = updateMarkerPosition(dragTarget, ev);
 
                     updateColor('hsla', 'a', percent / 100);
 
                     updateAllElements();
 
-                    ev.gesture.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault();
                 });
 
-                hammer_cp.on("touch", ".cp-rgbred", function(ev) {
+                elements.sliders.red.on("touchstart mousedown", function(ev) {
                     dragTarget = "red";
 
-                    var percent = updateMarkerPosition(dragTarget, ev.gesture.center);
+                    var percent = updateMarkerPosition(dragTarget, ev);
 
                     updateColor('rgba', 'r', 2.55 * percent);
 
                     updateAllElements();
 
-                    ev.gesture.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault();
                 });
 
-                hammer_cp.on("touch", ".cp-rgbgreen", function(ev) {
+                elements.sliders.green.on("touchstart mousedown", function(ev) {
                     dragTarget = "green";
 
-                    var percent = updateMarkerPosition(dragTarget, ev.gesture.center);
+                    var percent = updateMarkerPosition(dragTarget, ev);
 
                     updateColor('rgba', 'g', 2.55 * percent);
 
                     updateAllElements();
 
-                    ev.gesture.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault();
                 });
 
-                hammer_cp.on("touch", ".cp-rgbblue", function(ev) {
+                elements.sliders.blue.on("touchstart mousedown", function(ev) {
                     dragTarget = "blue";
 
-                    var percent = updateMarkerPosition(dragTarget, ev.gesture.center);
+                    var percent = updateMarkerPosition(dragTarget, ev);
 
                     updateColor('rgba', 'b', 2.55 * percent);
 
                     updateAllElements();
 
-                    ev.gesture.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault();
                 });
 
-                hammer_cp.on("touch", ".cp-cielightness", function(ev) {
+                elements.sliders.cielightness.on("touchstart mousedown", function(ev) {
                     dragTarget = "cielightness";
 
-                    var percent = updateMarkerPosition(dragTarget, ev.gesture.center);
+                    var percent = updateMarkerPosition(dragTarget, ev);
 
                     updateColor('cielch', 'l', (MAXLIGHT / 100) * percent);
 
                     updateAllElements();
 
-                    ev.gesture.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault();
                 });
 
-                hammer_cp.on("touch", ".cp-ciechroma", function(ev) {
+                elements.sliders.ciechroma.on("touchstart mousedown", function(ev) {
                     dragTarget = "ciechroma";
 
-                    var percent = updateMarkerPosition(dragTarget, ev.gesture.center);
+                    var percent = updateMarkerPosition(dragTarget, ev);
 
                     updateColor('cielch', 'c', (MAXVALIDCHROMA / 100) * percent);
 
                     updateAllElements();
 
-                    ev.gesture.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault();
                 });
 
-                hammer_cp.on("touch", ".cp-ciehue", function(ev) {
+                elements.sliders.ciehue.on("touchstart mousedown", function(ev) {
                     dragTarget = "ciehue";
 
-                    var percent = updateMarkerPosition(dragTarget, ev.gesture.center);
+                    var percent = updateMarkerPosition(dragTarget, ev);
 
                     updateColor('cielch', 'h', 3.6 * percent);
 
                     updateAllElements();
 
-                    ev.gesture.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault();
                 });
 
-                $(document).hammer().on("dragleft dragright", function(ev) {
+                $(document).on("touchmove mousemove", function(ev) {
                     if (!dragTarget) {
                         return;
                     }
 
-                    var percent = updateMarkerPosition(dragTarget, ev.gesture.center);
+                    var percent = updateMarkerPosition(dragTarget, ev);
 
                     switch (dragTarget)
                     {
@@ -515,12 +500,14 @@
 
                     updateAllElements();
 
-                    ev.gesture.preventDefault();
-                    ev.stopPropagation();
+                    ev.preventDefault();
                 });
 
-                hammer_cp.on("release", function() {
-                    dragTarget = false;
+                $(document).on("touchend mouseup", function(ev) {
+                    if (dragTarget) {
+                        dragTarget = false;
+                        ev.preventDefault();
+                    }
                 });
 
                 if (elements.connectedinput) {
@@ -592,19 +579,28 @@
                 }
             }
 
-            function updateMarkerPosition(slidername, gesturecenter)
+            function updateMarkerPosition(slidername, ev)
             {
-                var percent = calculateEventPositionPercentage(gesturecenter, elements.sliders[slidername]);
+                var percent = calculateEventPositionPercentage(ev, elements.sliders[slidername]);
 
                 elements.sliders[slidername + '_marker'].data("position", percent);
 
                 return percent;
             }
 
-            function calculateEventPositionPercentage(center, containerElement)
+            function calculateEventPositionPercentage(ev, containerElement)
             {
+                var pageX;
+
+                if (typeof event.touches !== "undefined") {
+                    pageX = event.touches[0].pageX;
+                }
+                else {
+                    pageX = ev.pageX;
+                }
+
                 var xsize = containerElement.width(),
-                        offsetX = center.pageX - containerElement.offset().left;
+                        offsetX = pageX - containerElement.offset().left;
 
                 var percent = offsetX / xsize * 100;
 

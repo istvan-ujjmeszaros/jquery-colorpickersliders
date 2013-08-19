@@ -1,8 +1,8 @@
-// TinyColor v0.9.15+
+// TinyColor v0.9.16
 // https://github.com/bgrins/TinyColor
-// 2013-02-24, Brian Grinstead, MIT License
+// 2013-08-10, Brian Grinstead, MIT License
 
-(function(root) {
+(function() {
 
 var trimLeft = /^[\s,#]+/,
     trimRight = /\s+$/,
@@ -44,6 +44,13 @@ function tinycolor (color, opts) {
         format: format,
         _tc_id: tinyCounter++,
         alpha: a,
+        getAlpha: function() {
+            return a;
+        },
+        setAlpha: function(value) {
+            a = boundAlpha(value);
+            roundA = mathRound(100*a) / 100;
+        },
         toHsv: function() {
             var hsv = rgbToHsv(r, g, b);
             return { h: hsv.h * 360, s: hsv.s, v: hsv.v, a: a };
@@ -221,12 +228,7 @@ function inputToRGB(color) {
         }
     }
 
-    a = parseFloat(a);
-
-    // Handle invalid alpha characters by setting to 1
-    if (isNaN(a) || a < 0 || a > 1) {
-        a = 1;
-    }
+    a = boundAlpha(a);
 
     return {
         ok: ok,
@@ -754,6 +756,17 @@ function flip(o) {
     return flipped;
 }
 
+// Return a valid alpha value [0,1] with all invalid values being set to 1
+function boundAlpha(a) {
+    a = parseFloat(a);
+
+    if (isNaN(a) || a < 0 || a > 1) {
+        a = 1;
+    }
+
+    return a;
+}
+
 // Take input from [0, n] and return it as [0, 1]
 function bound01(n, max) {
     if (isOnePointZero(n)) { n = "100%"; }
@@ -903,7 +916,7 @@ else if (typeof define !== "undefined") {
 }
 // Browser: Expose to window
 else {
-    root.tinycolor = tinycolor;
+    window.tinycolor = tinycolor;
 }
 
-})(this);
+})();
