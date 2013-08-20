@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v1.2.3
+ *  v1.2.4
  *
  *  An advanced color selector with support for human perceived
  *  lightness (it works in the CIELab color space), and designed to work
@@ -45,6 +45,7 @@
                 color: 'hsl(342, 52%, 70%)',
                 connectedinput: false,          // can be a jquery object or a selector
                 flat: false,
+                updateinterval: 30,             // update interval of the sliders while in drag (ms)
                 previewontriggerelement: true,
                 previewcontrasttreshold: 15,
                 erroneousciecolormarkers: true,
@@ -98,6 +99,7 @@
                 elements,
                 MAXLIGHT = 101, // 101 needed for bright colors (maybe due to rounding errors)
                 dragTarget = false,
+                lastUpdateTime = 0,
                 color = {
                     tiny: null,
                     hsla: null,
@@ -134,7 +136,7 @@
                 color.rgba = color.tiny.toRgb();
                 color.cielch = $.fn.ColorPickerSliders.rgb2lch(color.rgba);
 
-                updateAllElementsTimer();
+                updateAllElements();
             }
 
             function buildHtml()
@@ -339,12 +341,12 @@
 
                 elements.sliders.hue.on("touchstart mousedown", function(ev) {
                     dragTarget = "hue";
-console.log(ev);
+
                     var percent = updateMarkerPosition(dragTarget, ev);
 
                     updateColor('hsla', 'h', 3.6 * percent);
 
-                    updateAllElementsTimer();
+                    updateAllElements();
 
                     ev.preventDefault();
                 });
@@ -356,7 +358,7 @@ console.log(ev);
 
                     updateColor('hsla', 's', percent / 100);
 
-                    updateAllElementsTimer();
+                    updateAllElements();
 
                     ev.preventDefault();
                 });
@@ -368,7 +370,7 @@ console.log(ev);
 
                     updateColor('hsla', 'l', percent / 100);
 
-                    updateAllElementsTimer();
+                    updateAllElements();
 
                     ev.preventDefault();
                 });
@@ -380,7 +382,7 @@ console.log(ev);
 
                     updateColor('hsla', 'a', percent / 100);
 
-                    updateAllElementsTimer();
+                    updateAllElements();
 
                     ev.preventDefault();
                 });
@@ -392,7 +394,7 @@ console.log(ev);
 
                     updateColor('rgba', 'r', 2.55 * percent);
 
-                    updateAllElementsTimer();
+                    updateAllElements();
 
                     ev.preventDefault();
                 });
@@ -404,7 +406,7 @@ console.log(ev);
 
                     updateColor('rgba', 'g', 2.55 * percent);
 
-                    updateAllElementsTimer();
+                    updateAllElements();
 
                     ev.preventDefault();
                 });
@@ -416,7 +418,7 @@ console.log(ev);
 
                     updateColor('rgba', 'b', 2.55 * percent);
 
-                    updateAllElementsTimer();
+                    updateAllElements();
 
                     ev.preventDefault();
                 });
@@ -428,7 +430,7 @@ console.log(ev);
 
                     updateColor('cielch', 'l', (MAXLIGHT / 100) * percent);
 
-                    updateAllElementsTimer();
+                    updateAllElements();
 
                     ev.preventDefault();
                 });
@@ -440,7 +442,7 @@ console.log(ev);
 
                     updateColor('cielch', 'c', (MAXVALIDCHROMA / 100) * percent);
 
-                    updateAllElementsTimer();
+                    updateAllElements();
 
                     ev.preventDefault();
                 });
@@ -452,7 +454,7 @@ console.log(ev);
 
                     updateColor('cielch', 'h', 3.6 * percent);
 
-                    updateAllElementsTimer();
+                    updateAllElements();
 
                     ev.preventDefault();
                 });
@@ -502,7 +504,7 @@ console.log(ev);
                             break;
                     }
 
-                    updateAllElementsTimer();
+                    updateAllElements();
 
                     ev.preventDefault();
                 });
@@ -528,7 +530,7 @@ console.log(ev);
                             color.rgba = tinycolor($input.val()).toRgb();
                             color.cielch = $.fn.ColorPickerSliders.rgb2lch(color.rgba);
 
-                            updateAllElementsTimer();
+                            updateAllElements();
                         }
                         else {
                             return false;
@@ -623,11 +625,20 @@ console.log(ev);
 
             function updateAllElementsTimer()
             {
-                updateAllElementsTimeout = setTimeout(updateAllElements, 100);
+                updateAllElementsTimeout = setTimeout(updateAllElements, settings.updateinterval);
             }
 
             function updateAllElements()
             {
+                clearTimeout(updateAllElementsTimeout);
+
+                if (Date.now() - lastUpdateTime < settings.updateinterval) {
+                    updateAllElementsTimer();
+                    return;
+                }
+
+                lastUpdateTime = Date.now();
+
                 if (settings.order.opacity !== false) {
                     renderOpacity();
                 }
@@ -666,8 +677,6 @@ console.log(ev);
                 }
 
                 settings.onchange(container, color);
-
-                clearTimeout(updateAllElementsTimeout);
             }
 
             function updateConnectedInput()
