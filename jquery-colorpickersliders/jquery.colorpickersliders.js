@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v1.2.5
+ *  v1.2.6
  *
  *  An advanced color selector with support for human perceived
  *  lightness (it works in the CIELab color space), and designed to work
@@ -181,7 +181,7 @@
                 }
 
                 if (settings.flat) {
-                    container = $('<div class="cp-container"></div>').insertAfter(triggerelement);
+                    container = $('<div class="cp-container"></div>').appendTo(triggerelement);
                 }
                 else {
                     container = $('<div class="cp-container"></div>').appendTo('body');
@@ -332,7 +332,7 @@
                     });
 
                     container.on("click", function(ev) {
-                        ev.gesture.preventDefault();
+                        ev.preventDefault();
                         ev.stopPropagation();
 
                         return false;
