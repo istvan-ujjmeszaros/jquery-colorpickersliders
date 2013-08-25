@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v2.0.1
+ *  v2.0.2
  *
  *  An advanced color selector with support for human perceived
  *  lightness (it works in the CIELab color space), and designed to work
@@ -316,15 +316,15 @@
 
             function _bindEvents()
             {
-                triggerelement.on('jquerycolorpickersliders.updateColor', function(e, newcolor) {
+                triggerelement.on('colorpickersliders.updateColor', function(e, newcolor) {
                     updateColor(newcolor);
                 });
 
-                triggerelement.on('jquerycolorpickersliders.showPopup', function(e) {
+                triggerelement.on('colorpickersliders.showPopup', function(e) {
                     showPopup();
                 });
 
-                triggerelement.on('jquerycolorpickersliders.hidePopup', function(e) {
+                triggerelement.on('colorpickersliders.hidePopup', function(e) {
                     hidePopup();
                 });
 
