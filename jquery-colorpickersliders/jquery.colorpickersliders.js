@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v2.0.0
+ *  v2.0.1
  *
  *  An advanced color selector with support for human perceived
  *  lightness (it works in the CIELab color space), and designed to work
@@ -91,7 +91,7 @@
                 _updateAllElements();
             }
 
-            function updateColor(newcolor)
+            function updateColor(newcolor, disableinputupdate)
             {
                 var updatedcolor = tinycolor(newcolor);
 
@@ -104,7 +104,7 @@
                     color.rgba = updatedcolor.toRgb();
                     color.cielch = $.fn.ColorPickerSliders.rgb2lch(color.rgba);
 
-                    _updateAllElements();
+                    _updateAllElements(disableinputupdate);
 
                     return true;
                 }
@@ -548,10 +548,10 @@
                 });
 
                 if (elements.connectedinput) {
-                    elements.connectedinput.on('change', function() {
+                    elements.connectedinput.on('keyup change', function() {
                         var $input = $(this);
 
-                        updateColor($input.val());
+                        updateColor($input.val(), true);
                     });
                 }
 
@@ -613,18 +613,24 @@
 
             var updateAllElementsTimeout;
 
-            function _updateAllElementsTimer()
+            function _updateAllElementsTimer(disableinputupdate)
             {
-                updateAllElementsTimeout = setTimeout(_updateAllElements, settings.updateinterval);
+                updateAllElementsTimeout = setTimeout(function() {
+                    _updateAllElements(disableinputupdate);
+                }, settings.updateinterval);
             }
 
-            function _updateAllElements()
+            function _updateAllElements(disableinputupdate)
             {
                 clearTimeout(updateAllElementsTimeout);
 
                 if (Date.now() - lastUpdateTime < settings.updateinterval) {
-                    _updateAllElementsTimer();
+                    _updateAllElementsTimer(disableinputupdate);
                     return;
+                }
+
+                if (typeof disableinputupdate === "undefined") {
+                    disableinputupdate = false;
                 }
 
                 lastUpdateTime = Date.now();
@@ -651,7 +657,9 @@
                     _renderPreview();
                 }
 
-                _updateConnectedInput();
+                if (!disableinputupdate) {
+                    _updateConnectedInput();
+                }
 
                 if ((100 - color.cielch.l) * color.cielch.a < settings.previewcontrasttreshold) {
                     elements.all_sliders.css('color', '#000');

@@ -71,17 +71,18 @@
                 </script>
 
                 <p>
-                Update color from code: <a class="btn updatecolor" data-updatecolor="hsl(0,100%,50%)">hsl(0,100%,50%)</a> <a class="btn updatecolor" data-updatecolor="rgba(0,255,0,0.5)">rgba(0,255,0,0.5)</a> <a class="btn updatecolor" data-updatecolor="blue">blue</a> <a class="btn updatecolor" data-updatecolor="#ffff00">#ffff00</a> <a class="btn updatecolor" data-updatecolor="transparent">transparent</a>
+                    Update color from code: <a class="btn updatecolor" data-updatecolor="hsl(0,100%,50%)">hsl(0,100%,50%)</a> <a class="btn updatecolor" data-updatecolor="rgba(0,255,0,0.5)">rgba(0,255,0,0.5)</a> <a class="btn updatecolor" data-updatecolor="blue">blue</a> <a class="btn updatecolor" data-updatecolor="#ffff00">#ffff00</a> <a class="btn updatecolor" data-updatecolor="transparent">transparent</a>
                 <p>
 
-                <script>
-                    $('.updatecolor').on('click', function(e) {
-                        $(".demo1").trigger('jquerycolorpickersliders.updateColor', $(this).data("updatecolor"));
-                    });
-                </script>
+                    <script>
+                        $('.updatecolor').on('click', function(e) {
+                            $(".demo1").trigger('jquerycolorpickersliders.updateColor', $(this).data("updatecolor"));
+                        });
+                    </script>
 
+                <h2>Color picker in a popup</h2>
                 <p>
-                    Color picker in a popup: <input type="text" class="a-popup" data-color-format="hex" value="purple"> <small>Hint: you can type in any CSS color (even named ones).</small>
+                    <input type="text" class="a-popup" data-color-format="hex" value="purple"> <small>Hint: you can type in any CSS color (even named ones, like yellow).</small>
                 </p>
 
                 <script>
@@ -211,15 +212,15 @@ $('.demo-popup').ColorPickerSliders({
     }
 });</pre>
                 <form class="form-horizontal" action="#">
-                <div class="control-group">
-                    <label class="control-label" for="color">Color: </label>
-                    <div class="controls controls-row">
-                        <input id="color" type="text" class="demo-popup" value="#56B29A" data-color-format="hex">
-                        <button type="button" class="btn demo-popup">button</button>
-                        <span class="demo-popup">span</span>
-                        <a class="demo-popup">link</a>
+                    <div class="control-group">
+                        <label class="control-label" for="color">Color: </label>
+                        <div class="controls controls-row">
+                            <input id="color" type="text" class="demo-popup" value="#56B29A" data-color-format="hex">
+                            <button type="button" class="btn demo-popup">button</button>
+                            <span class="demo-popup">span</span>
+                            <a class="demo-popup">link</a>
+                        </div>
                     </div>
-                </div>
                 </form>
                 <script>
                     $('.demo-popup').ColorPickerSliders({
@@ -241,7 +242,7 @@ $('.demo-popup').ColorPickerSliders({
                 <p>
                     The color can be updated via any of the connected inputs. The plugin uses the excellent <a href="https://github.com/bgrins/TinyColor" target="_blank">Tiny Color</a> plugin, so it handles all valid CSS color formats (CSS color names as well!).
                 </p>
-                 <pre class="prettyprint">
+                <pre class="prettyprint">
 &lt;input type=&quot;text&quot; class=&quot;full-demo-input&quot; data-color-format=&quot;hsl&quot;&gt;
 &lt;input type=&quot;text&quot; class=&quot;full-demo-input&quot; data-color-format=&quot;hex&quot;&gt;
 &lt;input type=&quot;text&quot; class=&quot;full-demo full-demo-input&quot; data-color-format=&quot;rgb&quot;&gt;
