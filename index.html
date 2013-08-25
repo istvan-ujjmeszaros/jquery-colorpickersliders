@@ -42,6 +42,15 @@
 
                 <h1>jQuery Color Picker Sliders<small> with human color perception</small></h1>
 
+                <p>
+                    Do you know the difference between the usual HSL and the human perceived (CIE Lch) sliders?
+                </p>
+
+                <h2>See the difference</h2>
+
+                <p>
+                    Use the HSL hue slider, and the human perceived lightness will change a lot between the different hue angles (blue seems to be darker than yellow). Use the CIE hue slider, and the perceived lightness remains much more constant.
+                </p>
                 <span class="demo1"></span>
                 <script>
                     $(".demo1").ColorPickerSliders({
@@ -49,12 +58,36 @@
                         color: 'orange',
                         order: {
                             cie: 1,
-                            preview: 2
+                            hsl: 2,
+                            opacity: 3,
+                            preview: 4
                         },
                         labels: {
                             cielightness: 'Human perceived lightness',
-                            ciechroma: 'Chroma',
-                            ciehue: 'Hue'
+                            ciechroma: 'CIE Chroma',
+                            ciehue: 'CIE Hue'
+                        }
+                    });
+                </script>
+
+                <p>
+                Update color from code: <a class="btn updatecolor" data-updatecolor="hsl(0,100%,50%)">hsl(0,100%,50%)</a> <a class="btn updatecolor" data-updatecolor="rgba(0,255,0,0.5)">rgba(0,255,0,0.5)</a> <a class="btn updatecolor" data-updatecolor="blue">blue</a> <a class="btn updatecolor" data-updatecolor="#ffff00">#ffff00</a> <a class="btn updatecolor" data-updatecolor="transparent">transparent</a>
+                <p>
+
+                <script>
+                    $('.updatecolor').on('click', function(e) {
+                        $(".demo1").trigger('jquerycolorpickersliders.updateColor', $(this).data("updatecolor"));
+                    });
+                </script>
+
+                <p>
+                    Color picker in a popup: <input type="text" class="a-popup" data-color-format="hex" value="purple"> <small>Hint: you can type in any CSS color (even named ones).</small>
+                </p>
+
+                <script>
+                    $(".a-popup").ColorPickerSliders({
+                        order: {
+                            hsl: 1
                         }
                     });
                 </script>
@@ -225,6 +258,7 @@ $(".full-demo").ColorPickerSliders({
                         <input type="text" class="full-demo full-demo-input" data-color-format="rgb">
                     </div>
                 </div>
+                <span class="full-demo"></span>
                 <script>
                     $(".full-demo").ColorPickerSliders({
                         flat: true,
@@ -247,7 +281,7 @@ $(".full-demo").ColorPickerSliders({
 
                 <p>
                     The position markers on the sliders are always shows an exclamation mark when the actual Lch setting can not be converted to an RGB value, but there is more to it! You can make the invalid colors invisible or semi-transparent using the <code>invalidcolorsopacity</code> setting. This way it is easier to find different hues or lightness with the same chroma.<br>
-                    You can notice that the preview shows the actual color with the highest possible chroma value. See it in action:
+                    You can notice that if the chroma is set to too high, then the preview shows the actual color with the highest possible chroma value. See it in action:
                 </p>
                 <div class="row-fluid">
                     <div class="span6">
