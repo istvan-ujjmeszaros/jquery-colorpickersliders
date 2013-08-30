@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v2.0.2
+ *  v2.0.3
  *
  *  An advanced color selector with support for human perceived
  *  lightness (it works in the CIELab color space), and designed to work
@@ -370,7 +370,7 @@
                     });
                 }
 
-                elements.sliders.hue.on("touchstart mousedown", function(ev) {
+                elements.sliders.hue.parent().on("touchstart mousedown", function(ev) {
                     dragTarget = "hue";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -382,7 +382,7 @@
                     ev.preventDefault();
                 });
 
-                elements.sliders.saturation.on("touchstart mousedown", function(ev) {
+                elements.sliders.saturation.parent().on("touchstart mousedown", function(ev) {
                     dragTarget = "saturation";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -394,7 +394,7 @@
                     ev.preventDefault();
                 });
 
-                elements.sliders.lightness.on("touchstart mousedown", function(ev) {
+                elements.sliders.lightness.parent().on("touchstart mousedown", function(ev) {
                     dragTarget = "lightness";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -406,7 +406,7 @@
                     ev.preventDefault();
                 });
 
-                elements.sliders.opacity.on("touchstart mousedown", function(ev) {
+                elements.sliders.opacity.parent().on("touchstart mousedown", function(ev) {
                     dragTarget = "opacity";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -418,7 +418,7 @@
                     ev.preventDefault();
                 });
 
-                elements.sliders.red.on("touchstart mousedown", function(ev) {
+                elements.sliders.red.parent().on("touchstart mousedown", function(ev) {
                     dragTarget = "red";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -430,7 +430,7 @@
                     ev.preventDefault();
                 });
 
-                elements.sliders.green.on("touchstart mousedown", function(ev) {
+                elements.sliders.green.parent().on("touchstart mousedown", function(ev) {
                     dragTarget = "green";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -442,7 +442,7 @@
                     ev.preventDefault();
                 });
 
-                elements.sliders.blue.on("touchstart mousedown", function(ev) {
+                elements.sliders.blue.parent().on("touchstart mousedown", function(ev) {
                     dragTarget = "blue";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -454,7 +454,7 @@
                     ev.preventDefault();
                 });
 
-                elements.sliders.cielightness.on("touchstart mousedown", function(ev) {
+                elements.sliders.cielightness.parent().on("touchstart mousedown", function(ev) {
                     dragTarget = "cielightness";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -466,7 +466,7 @@
                     ev.preventDefault();
                 });
 
-                elements.sliders.ciechroma.on("touchstart mousedown", function(ev) {
+                elements.sliders.ciechroma.parent().on("touchstart mousedown", function(ev) {
                     dragTarget = "ciechroma";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -478,7 +478,7 @@
                     ev.preventDefault();
                 });
 
-                elements.sliders.ciehue.on("touchstart mousedown", function(ev) {
+                elements.sliders.ciehue.parent().on("touchstart mousedown", function(ev) {
                     dragTarget = "ciehue";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
