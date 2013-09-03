@@ -3,14 +3,13 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v2.0.3
+ *  v3.0.0
  *
- *  An advanced color selector with support for human perceived
- *  lightness (it works in the CIELab color space), and designed to work
- *  on small touch devices.
+ *  An advanced responsive color selector with color swatches and support for
+ *  human perceived lightness. Works in all modern browsers and on touch devices.
  *
- *      https://github.com/istvan-meszaros/css-colorpicker-slider
- *      http://www.virtuosoft.eu/code/css-colorpicker-slider/
+ *      https://github.com/istvan-meszaros/css-colorpickersliders
+ *      http://www.virtuosoft.eu/code/css-colorpickersliders/
  *
  *  Copyright 2013 István Ujj-Mészáros
  *
@@ -46,6 +45,7 @@
                 triggerelement = $(this),
                 container,
                 elements,
+                swatches,
                 MAXLIGHT = 101, // 101 needed for bright colors (maybe due to rounding errors)
                 dragTarget = false,
                 lastUpdateTime = 0,
@@ -71,7 +71,6 @@
 
                 _buildHtml();
                 _initElements();
-                _bindEvents();
 
                 if (triggerelement.is("input")) {
                     color.tiny = tinycolor(triggerelement.val());
@@ -87,6 +86,9 @@
                 color.hsla = color.tiny.toHsl();
                 color.rgba = color.tiny.toRgb();
                 color.cielch = $.fn.ColorPickerSliders.rgb2lch(color.rgba);
+
+                _renderSwatches();
+                _bindEvents();
 
                 _updateAllElements();
             }
@@ -150,6 +152,8 @@
             {
                 settings = $.extend({
                     color: 'hsl(342, 52%, 70%)',
+                    swatches: ['FFFFFF','C0C0C0','808080','000000','FF0000','800000','FFFF00','808000','00FF00','008000','00FFFF','008080','0000FF','000080','FF00FF','800080'],
+                    customswatches: 'colorpickkersliders',     // false or a grop name
                     connectedinput: false,          // can be a jquery object or a selector
                     flat: false,
                     disableautopopup: false,
@@ -159,6 +163,9 @@
                     erroneousciecolormarkers: true,
                     invalidcolorsopacity: 1,        // everything below 1 causes slightly slower responses
                     finercierangeedges: true,       // can be disabled for faster responses
+                    titleswatchesadd: "Add color to swatches",
+                    titleswatchesremove: "Remove color from swatches",
+                    titleswatchesreset: "Reset to default swatches",
                     order: {},
                     labels: {},
                     onchange: function() {
@@ -249,8 +256,12 @@
                     color_picker_html += '</div>';
                 }
 
+                if (settings.swatches) {
+                    color_picker_html += '<div class="cp-swatches"><button type="button" class="add" title="'+ settings.titleswatchesadd + '"></button><button type="button" class="remove" title="'+ settings.titleswatchesremove + '"></button><button type="button" class="reset" title="'+ settings.titleswatchesreset + '"></button><ul></ul><div style="clear:both"></div></div>';
+                }
+
                 if (settings.flat) {
-                    container = $('<div class="cp-container"></div>').appendTo(triggerelement);
+                    container = $('<div class="cp-container"></div>').insertAfter(triggerelement);
                 }
                 else {
                     container = $('<div class="cp-container"></div>').appendTo('body');
@@ -268,7 +279,6 @@
                     settings.connectedinput = $(settings.connectedinput).add(triggerelement);
                 }
 
-
                 if (!settings.flat) {
                     container.addClass('cp-popup');
                 }
@@ -278,6 +288,12 @@
             {
                 elements = {
                     connectedinput: false,
+                    actualswatch : false,
+                    swatchescontainer: $(".cp-swatches", container),
+                    swatches: $(".cp-swatches ul", container),
+                    swatches_add: $(".cp-swatches button.add", container),
+                    swatches_remove: $(".cp-swatches button.remove", container),
+                    swatches_reset: $(".cp-swatches button.reset", container),
                     all_sliders: $(".cp-sliders, .cp-preview input", container),
                     sliders: {
                         hue: $(".cp-hslhue span", container),
@@ -312,6 +328,12 @@
                         elements.connectedinput = $(settings.connectedinput);
                     }
                 }
+
+                if (!settings.customswatches) {
+                    elements.swatches_add.hide();
+                    elements.swatches_remove.hide();
+                    elements.swatches_reset.hide();
+                }
             }
 
             function _bindEvents()
@@ -326,6 +348,10 @@
 
                 triggerelement.on('colorpickersliders.hidePopup', function(e) {
                     hidePopup();
+                });
+
+                $(document).on("colorpickersliders.changeswatches", function() {
+                    _renderSwatches();
                 });
 
                 if (!settings.flat && !settings.disableautopopup) {
@@ -362,13 +388,30 @@
                         ev.stopPropagation();
                     });
 
-                    container.on("click", function(ev) {
+                    container.on("touchstart mousedown", function(ev) {
                         ev.preventDefault();
                         ev.stopPropagation();
 
                         return false;
                     });
                 }
+
+                elements.swatches.on("click", "li span", function(e){
+                    var color = $(this).css("background-color");
+                    updateColor(color);
+                });
+
+                elements.swatches_add.on("click", function(){
+                    _addCurrentColorToSwatches();
+                });
+
+                elements.swatches_remove.on("click", function(){
+                    _removeActualColorFromSwatches();
+                });
+
+                elements.swatches_reset.on("click", function(){
+                    _resetSwatches();
+                });
 
                 elements.sliders.hue.parent().on("touchstart mousedown", function(ev) {
                     dragTarget = "hue";
@@ -557,6 +600,131 @@
 
             }
 
+            function _parseCustomSwatches()
+            {
+                swatches = [];
+
+                for (var i=0; i<settings.swatches.length; i++) {
+                    var color = tinycolor(settings.swatches[i]);
+
+                    if (color.format) {
+                        swatches.push(color.toRgbString());
+                    }
+                }
+            }
+
+            function _renderSwatches()
+            {
+                if (!settings.swatches) {
+                    return;
+                }
+
+                if (settings.customswatches) {
+                    var customswatches = JSON.parse(localStorage.getItem("swatches-"+settings.customswatches));
+
+                    if (customswatches) {
+                        swatches = customswatches;
+                    }
+                    else {
+                        _parseCustomSwatches();
+                    }
+                }
+                else {
+                    _parseCustomSwatches();
+                }
+
+                if (swatches instanceof Array) {
+                    elements.swatches.html("");
+                    for(var i=0; i<swatches.length; i++) {
+                        var color = tinycolor(swatches[i]);
+
+                        if (color.format) {
+                            elements.swatches.append($("<li></li>").append($("<span></span>").css("background-color", color.toRgbString())));
+                        }
+                    }
+                }
+
+                _findActualColorsSwatch();
+            }
+
+            function _findActualColorsSwatch()
+            {
+                var found = false;
+
+                $("span", elements.swatches).filter(function() {
+                    var swatchcolor = $(this).css('background-color');
+
+                    swatchcolor = tinycolor(swatchcolor);
+                    swatchcolor.alpha = Math.round(swatchcolor.alpha * 100) / 100;
+
+                    if (swatchcolor.toRgbString() === color.tiny.toRgbString()) {
+                        found = true;
+
+                        var currentswatch = $(this).parent();
+
+                        if (!currentswatch.is(elements.actualswatch)) {
+                            if (elements.actualswatch) {
+                                elements.actualswatch.removeClass("actual");
+                            }
+                            elements.actualswatch = currentswatch;
+                            currentswatch.addClass("actual");
+                        }
+                    }
+                });
+
+                if (!found) {
+                    if (elements.actualswatch) {
+                        elements.actualswatch.removeClass("actual");
+                        elements.actualswatch = false;
+                    }
+                }
+
+                if (elements.actualswatch) {
+                    elements.swatches_add.prop("disabled", true);
+                    elements.swatches_remove.prop("disabled", false);
+                }
+                else {
+                    elements.swatches_add.prop("disabled", false);
+                    elements.swatches_remove.prop("disabled", true);
+                }
+            }
+
+            function _storeSwatches()
+            {
+                localStorage.setItem("swatches-"+settings.customswatches, JSON.stringify(swatches));
+            }
+
+            function _addCurrentColorToSwatches()
+            {
+                swatches.unshift(color.tiny.toRgbString());
+                _storeSwatches();
+
+                $(document).trigger("colorpickersliders.changeswatches");
+            }
+
+            function _removeActualColorFromSwatches()
+            {
+                var index = swatches.indexOf(color.tiny.toRgbString());
+
+                if (index !== -1) {
+                    swatches.splice(index, 1);
+
+                    _storeSwatches();
+                    $(document).trigger("colorpickersliders.changeswatches");
+                }
+            }
+
+            function _resetSwatches()
+            {
+                if (confirm("Do you really want to reset the swatches? All customizations will be lost!")) {
+                    _parseCustomSwatches();
+
+                    _storeSwatches();
+
+                    $(document).trigger("colorpickersliders.changeswatches");
+                }
+            }
+
             function _updateColorsProperty(format, property, value)
             {
                 switch(format) {
@@ -673,6 +841,8 @@
                         triggerelement.css('background', color.tiny.toRgbString()).css('color', '#fff');
                     }
                 }
+
+                _findActualColorsSwatch();
 
                 settings.onchange(container, color);
             }

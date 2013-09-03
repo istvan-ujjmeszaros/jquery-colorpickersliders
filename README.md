@@ -1,8 +1,6 @@
 # jQuery Color Picker Sliders
 
-##### An advanced color selector with support for human perceived lightness
-
-Designed to works in all modern browsers and on touch devices.
+An advanced responsive color selector with color swatches and support for human perceived lightness. Works in all modern browsers and on touch devices.
 
 - [Website](http://www.virtuosoft.eu/code/jquery-colorpickersliders/)
 

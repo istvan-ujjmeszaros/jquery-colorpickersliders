@@ -1,0 +1,49 @@
+
+body {
+    padding-top: 50px;
+    font-family: sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+a {
+    color: #d44413;
+}
+
+a:hover {
+    color: #97310e;
+}
+
+.navbar.navbar-fixed-top {
+    background-color: #d44413;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0,0,0, 0.27);
+    min-height: 0;
+}
+
+.navbar.navbar-fixed-top a {
+    color: #fff;
+}
+
+.navbar-brand {
+    padding: 10px 15px;
+}
+
+.dl-horizontal dt {
+    width: auto;
+    float: none;
+    margin: 0 0 10px 0;
+    text-align: left;
+}
+
+.dl-horizontal dd {
+    margin-left: 15px;
+    margin-bottom: 20px;
+}
+
+code {
+    padding: 1px 4px;
+}

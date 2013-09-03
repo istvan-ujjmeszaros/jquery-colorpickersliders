@@ -1,7 +1,7 @@
 {
     "name": "jquery-colorpickersliders",
     "title": "jQuery Color Picker Sliders",
-    "description": "An advanced color selector with support for human perceived lightness. It works in all modern browsers and on touch devices, and it's responsive.",
+    "description": "An advanced responsive color selector with color swatches and support for human perceived lightness. Works in all modern browsers and on touch devices.",
     "keywords": [
         "colorpicker",
         "input",
@@ -10,7 +10,7 @@
         "picker",
         "widget"
     ],
-    "version": "2.0.3",
+    "version": "3.0.0",
     "author": {
         "name": "István Ujj-Mészáros",
         "url": "https://github.com/istvan-ujjmeszaros"
