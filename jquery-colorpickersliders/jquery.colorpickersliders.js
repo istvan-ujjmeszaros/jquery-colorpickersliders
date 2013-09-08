@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v3.0.0
+ *  v3.0.1
  *
  *  An advanced responsive color selector with color swatches and support for
  *  human perceived lightness. Works in all modern browsers and on touch devices.
@@ -396,24 +396,38 @@
                     });
                 }
 
-                elements.swatches.on("click", "li span", function(e){
+                container.on("contextmenu", function(ev) {
+                    ev.preventDefault();
+                    return false;
+                });
+
+                elements.swatches.on("click", "li span", function(ev){
                     var color = $(this).css("background-color");
                     updateColor(color);
+                    ev.preventDefault();
                 });
 
                 elements.swatches_add.on("click", function(){
                     _addCurrentColorToSwatches();
+                    ev.preventDefault();
                 });
 
                 elements.swatches_remove.on("click", function(){
                     _removeActualColorFromSwatches();
+                    ev.preventDefault();
                 });
 
                 elements.swatches_reset.on("click", function(){
                     _resetSwatches();
+                    ev.preventDefault();
                 });
 
                 elements.sliders.hue.parent().on("touchstart mousedown", function(ev) {
+                    ev.preventDefault();
+
+                    if (ev.which > 1)
+                        return;
+
                     dragTarget = "hue";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -421,11 +435,14 @@
                     _updateColorsProperty('hsla', 'h', 3.6 * percent);
 
                     _updateAllElements();
-
-                    ev.preventDefault();
                 });
 
                 elements.sliders.saturation.parent().on("touchstart mousedown", function(ev) {
+                    ev.preventDefault();
+
+                    if (ev.which > 1)
+                        return;
+
                     dragTarget = "saturation";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -433,11 +450,14 @@
                     _updateColorsProperty('hsla', 's', percent / 100);
 
                     _updateAllElements();
-
-                    ev.preventDefault();
                 });
 
                 elements.sliders.lightness.parent().on("touchstart mousedown", function(ev) {
+                    ev.preventDefault();
+
+                    if (ev.which > 1)
+                        return;
+
                     dragTarget = "lightness";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -445,11 +465,14 @@
                     _updateColorsProperty('hsla', 'l', percent / 100);
 
                     _updateAllElements();
-
-                    ev.preventDefault();
                 });
 
                 elements.sliders.opacity.parent().on("touchstart mousedown", function(ev) {
+                    ev.preventDefault();
+
+                    if (ev.which > 1)
+                        return;
+
                     dragTarget = "opacity";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -457,11 +480,14 @@
                     _updateColorsProperty('hsla', 'a', percent / 100);
 
                     _updateAllElements();
-
-                    ev.preventDefault();
                 });
 
                 elements.sliders.red.parent().on("touchstart mousedown", function(ev) {
+                    ev.preventDefault();
+
+                    if (ev.which > 1)
+                        return;
+
                     dragTarget = "red";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -469,11 +495,14 @@
                     _updateColorsProperty('rgba', 'r', 2.55 * percent);
 
                     _updateAllElements();
-
-                    ev.preventDefault();
                 });
 
                 elements.sliders.green.parent().on("touchstart mousedown", function(ev) {
+                    ev.preventDefault();
+
+                    if (ev.which > 1)
+                        return;
+
                     dragTarget = "green";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -481,11 +510,14 @@
                     _updateColorsProperty('rgba', 'g', 2.55 * percent);
 
                     _updateAllElements();
-
-                    ev.preventDefault();
                 });
 
                 elements.sliders.blue.parent().on("touchstart mousedown", function(ev) {
+                    ev.preventDefault();
+
+                    if (ev.which > 1)
+                        return;
+
                     dragTarget = "blue";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -493,11 +525,14 @@
                     _updateColorsProperty('rgba', 'b', 2.55 * percent);
 
                     _updateAllElements();
-
-                    ev.preventDefault();
                 });
 
                 elements.sliders.cielightness.parent().on("touchstart mousedown", function(ev) {
+                    ev.preventDefault();
+
+                    if (ev.which > 1)
+                        return;
+
                     dragTarget = "cielightness";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -505,11 +540,14 @@
                     _updateColorsProperty('cielch', 'l', (MAXLIGHT / 100) * percent);
 
                     _updateAllElements();
-
-                    ev.preventDefault();
                 });
 
                 elements.sliders.ciechroma.parent().on("touchstart mousedown", function(ev) {
+                    ev.preventDefault();
+
+                    if (ev.which > 1)
+                        return;
+
                     dragTarget = "ciechroma";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -517,11 +555,14 @@
                     _updateColorsProperty('cielch', 'c', (MAXVALIDCHROMA / 100) * percent);
 
                     _updateAllElements();
-
-                    ev.preventDefault();
                 });
 
                 elements.sliders.ciehue.parent().on("touchstart mousedown", function(ev) {
+                    ev.preventDefault();
+
+                    if (ev.which > 1)
+                        return;
+
                     dragTarget = "ciehue";
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
@@ -529,8 +570,6 @@
                     _updateColorsProperty('cielch', 'h', 3.6 * percent);
 
                     _updateAllElements();
-
-                    ev.preventDefault();
                 });
 
                 elements.sliders.preview.on("click", function(){
@@ -584,6 +623,9 @@
                 });
 
                 $(document).on("touchend mouseup", function(ev) {
+                    if (ev.which > 1)
+                        return;
+
                     if (dragTarget) {
                         dragTarget = false;
                         ev.preventDefault();
