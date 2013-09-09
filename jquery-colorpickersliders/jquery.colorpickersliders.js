@@ -1,9 +1,9 @@
-/*jshint undef: true, unused:true */
+/*jshint undef: true, unused:true, browser:true */
 /*global jQuery: true, tinycolor: false */
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v3.0.1
+ *  v3.0.2
  *
  *  An advanced responsive color selector with color swatches and support for
  *  human perceived lightness. Works in all modern browsers and on touch devices.
@@ -342,11 +342,11 @@
                     updateColor(newcolor);
                 });
 
-                triggerelement.on('colorpickersliders.showPopup', function(e) {
+                triggerelement.on('colorpickersliders.showPopup', function() {
                     showPopup();
                 });
 
-                triggerelement.on('colorpickersliders.hidePopup', function(e) {
+                triggerelement.on('colorpickersliders.hidePopup', function() {
                     hidePopup();
                 });
 
@@ -407,17 +407,17 @@
                     ev.preventDefault();
                 });
 
-                elements.swatches_add.on("click", function(){
+                elements.swatches_add.on("click", function(ev){
                     _addCurrentColorToSwatches();
                     ev.preventDefault();
                 });
 
-                elements.swatches_remove.on("click", function(){
+                elements.swatches_remove.on("click", function(ev){
                     _removeActualColorFromSwatches();
                     ev.preventDefault();
                 });
 
-                elements.swatches_reset.on("click", function(){
+                elements.swatches_reset.on("click", function(ev){
                     _resetSwatches();
                     ev.preventDefault();
                 });
@@ -425,8 +425,9 @@
                 elements.sliders.hue.parent().on("touchstart mousedown", function(ev) {
                     ev.preventDefault();
 
-                    if (ev.which > 1)
+                    if (ev.which > 1) {
                         return;
+                    }
 
                     dragTarget = "hue";
 
@@ -440,8 +441,9 @@
                 elements.sliders.saturation.parent().on("touchstart mousedown", function(ev) {
                     ev.preventDefault();
 
-                    if (ev.which > 1)
+                    if (ev.which > 1) {
                         return;
+                    }
 
                     dragTarget = "saturation";
 
@@ -455,8 +457,9 @@
                 elements.sliders.lightness.parent().on("touchstart mousedown", function(ev) {
                     ev.preventDefault();
 
-                    if (ev.which > 1)
+                    if (ev.which > 1) {
                         return;
+                    }
 
                     dragTarget = "lightness";
 
@@ -470,8 +473,9 @@
                 elements.sliders.opacity.parent().on("touchstart mousedown", function(ev) {
                     ev.preventDefault();
 
-                    if (ev.which > 1)
+                    if (ev.which > 1) {
                         return;
+                    }
 
                     dragTarget = "opacity";
 
@@ -485,8 +489,9 @@
                 elements.sliders.red.parent().on("touchstart mousedown", function(ev) {
                     ev.preventDefault();
 
-                    if (ev.which > 1)
+                    if (ev.which > 1) {
                         return;
+                    }
 
                     dragTarget = "red";
 
@@ -500,8 +505,9 @@
                 elements.sliders.green.parent().on("touchstart mousedown", function(ev) {
                     ev.preventDefault();
 
-                    if (ev.which > 1)
+                    if (ev.which > 1) {
                         return;
+                    }
 
                     dragTarget = "green";
 
@@ -515,8 +521,9 @@
                 elements.sliders.blue.parent().on("touchstart mousedown", function(ev) {
                     ev.preventDefault();
 
-                    if (ev.which > 1)
+                    if (ev.which > 1) {
                         return;
+                    }
 
                     dragTarget = "blue";
 
@@ -530,8 +537,9 @@
                 elements.sliders.cielightness.parent().on("touchstart mousedown", function(ev) {
                     ev.preventDefault();
 
-                    if (ev.which > 1)
+                    if (ev.which > 1) {
                         return;
+                    }
 
                     dragTarget = "cielightness";
 
@@ -545,8 +553,9 @@
                 elements.sliders.ciechroma.parent().on("touchstart mousedown", function(ev) {
                     ev.preventDefault();
 
-                    if (ev.which > 1)
+                    if (ev.which > 1) {
                         return;
+                    }
 
                     dragTarget = "ciechroma";
 
@@ -560,8 +569,9 @@
                 elements.sliders.ciehue.parent().on("touchstart mousedown", function(ev) {
                     ev.preventDefault();
 
-                    if (ev.which > 1)
+                    if (ev.which > 1) {
                         return;
+                    }
 
                     dragTarget = "ciehue";
 
@@ -623,8 +633,9 @@
                 });
 
                 $(document).on("touchend mouseup", function(ev) {
-                    if (ev.which > 1)
+                    if (ev.which > 1) {
                         return;
+                    }
 
                     if (dragTarget) {
                         dragTarget = false;
