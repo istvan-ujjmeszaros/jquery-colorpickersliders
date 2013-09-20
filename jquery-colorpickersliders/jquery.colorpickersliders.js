@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v3.0.3
+ *  v3.0.4
  *
  *  An advanced responsive color selector with color swatches and support for
  *  human perceived lightness. Works in all modern browsers and on touch devices.
@@ -160,6 +160,7 @@
                     updateinterval: 30,             // update interval of the sliders while in drag (ms)
                     previewontriggerelement: true,
                     previewcontrasttreshold: 15,
+                    previewformat: 'rgb',           // rgb/hsl/hex
                     erroneousciecolormarkers: true,
                     invalidcolorsopacity: 1,        // everything below 1 causes slightly slower responses
                     finercierangeedges: true,       // can be disabled for faster responses
@@ -928,10 +929,6 @@
                         }
                     });
                 }
-
-                if (settings.order.preview !== false) {
-                    elements.sliders.preview.val(color.tiny.toRgbString());
-                }
             }
 
             function _renderHue()
@@ -1053,6 +1050,25 @@
             function _renderPreview()
             {
                 elements.sliders.preview.css("background", $.fn.ColorPickerSliders.csscolor(color.rgba));
+
+                var colorstring;
+
+                switch (settings.previewformat)
+                {
+                    case 'hex':
+                        colorstring = color.tiny.toHexString();
+                        break;
+                    case 'hsl':
+                        colorstring = color.tiny.toHslString();
+                        break;
+                    case 'rgb':
+                    /* falls through */
+                    default:
+                        colorstring = color.tiny.toRgbString();
+                        break;
+                }
+
+                elements.sliders.preview.val(colorstring);
             }
 
         });

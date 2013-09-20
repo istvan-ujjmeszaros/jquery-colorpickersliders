@@ -109,6 +109,7 @@
 
 $(".hsl-demo").ColorPickerSliders({
     flat: true,
+    previewformat: 'hsl',
     order: {
         hsl: 1,
         preview: 2
@@ -120,6 +121,7 @@ $(".hsl-demo").ColorPickerSliders({
                         <script>
                             $(".hsl-demo").ColorPickerSliders({
                                 flat: true,
+                                previewformat: 'hsl',
                                 order: {
                                     hsl: 1,
                                     preview: 2
@@ -256,6 +258,55 @@ $('.demo-popup').ColorPickerSliders({
                     });
                 </script>
 
+                <h3>Example for using the <code>onchange()</code> setting</h3>
+
+                <p>
+                    <input type="text" class="onchange-example" data-color-format="hex" value="GreenYellow"> <span class="onchange-example" style="padding:3px;border:1px solid #ccc;">this span is updated on change</span>
+                </p>
+
+                <script>
+                    $("input.onchange-example").ColorPickerSliders({
+                        order: {
+                            hsl: 1
+                        },
+                        onchange: function(container, color) {
+                            var span = $("span.onchange-example");
+
+                            span.css("background-color", color.tiny.toRgbString());
+
+                            if (color.cielch.l < 60) {
+                                span.css("color", "white");
+                            }
+                            else {
+                                span.css("color", "black");
+                            }
+                        }
+                    });
+                </script>
+
+<pre class="prettyprint">
+&lt;input type=&quot;text&quot; class=&quot;onchange-example&quot; data-color-format=&quot;hex&quot; value=&quot;GreenYellow&quot;&gt; &lt;span class=&quot;onchange-example&quot; style=&quot;padding:3px;border:1px solid #ccc;&quot;&gt;this span is updated on change&lt;/span&gt;
+
+&lt;script&gt;
+    $(&quot;input.onchange-example&quot;).ColorPickerSliders({
+        order: {
+            hsl: 1
+        },
+        onchange: function(container, color) {
+            var span = $(&quot;span.onchange-example&quot;);
+
+            span.css(&quot;background-color&quot;, color.tiny.toRgbString());
+
+            if (color.cielch.l &lt; 60) {
+                span.css(&quot;color&quot;, &quot;white&quot;);
+            }
+            else {
+                span.css(&quot;color&quot;, &quot;black&quot;);
+            }
+        }
+    });
+&lt;/script&gt;</pre>
+
                 <h3>A full-blown example showing all the sliders in action</h3>
 
                 <p>
@@ -344,6 +395,9 @@ $(".cielch-demo2").ColorPickerSliders({
                     <dl class="dl-horizontal">
                         <dt><code>color</code></dt>
                         <dd>This is the initial color if there is no valid (any CSS formatted) color value on the connected input element. Can be in any format that <a href="https://github.com/bgrins/TinyColor" target="_blank">Tiny Color supports</a>.</dd>
+
+                        <dt><code>previewformat</code></dt>
+                        <dd>This is the color format on the preview slider (if visible). Can be <strong><code>rgb</code></strong>, <code>hsl</code> or <code>hex</code>. Note that hex format can not represent the opacity value.</dd>
 
                         <dt><code>swatches</code></dt>
                         <dd><code>array</code>: Array of CSS colors (can be CSS color names as well).<br>
