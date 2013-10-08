@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v3.0.4
+ *  v3.0.5
  *
  *  An advanced responsive color selector with color swatches and support for
  *  human perceived lightness. Works in all modern browsers and on touch devices.
@@ -262,7 +262,13 @@
                 }
 
                 if (settings.flat) {
-                    container = $('<div class="cp-container"></div>').insertAfter(triggerelement);
+                    if (triggerelement.is("input")) {
+                        container = $('<div class="cp-container"></div>').insertAfter(triggerelement);
+                    }
+                    else {
+                        container = $('<div class="cp-container"></div>');
+                        triggerelement.append(container);
+                    }
                 }
                 else {
                     container = $('<div class="cp-container"></div>').appendTo('body');
