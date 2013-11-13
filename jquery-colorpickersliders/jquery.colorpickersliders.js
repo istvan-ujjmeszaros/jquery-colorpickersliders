@@ -253,10 +253,6 @@
 
                 color_picker_html += '</div>';
 
-                // if (!settings.flat) {
-                //     color_picker_html += '</div>';
-                // }
-
                 if (settings.swatches) {
                     color_picker_html += '<div class="cp-swatches"><button type="button" class="add" title="'+ settings.titleswatchesadd + '"></button><button type="button" class="remove" title="'+ settings.titleswatchesremove + '"></button><button type="button" class="reset" title="'+ settings.titleswatchesreset + '"></button><ul></ul><div style="clear:both"></div></div>';
                 }
