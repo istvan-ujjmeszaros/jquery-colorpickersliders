@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>jQuery Color Picker Sliders</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="An advanced responsive color selector with color swatches and support for human perceived lightness. Works in all modern browsers and on touch devices.">
+        <meta name="author" content="István Ujj-Mészáros">
+
+        <meta itemprop="name" content="jQuery Color Picker Sliders">
+        <meta itemprop="description" content="An advanced responsive color selector with color swatches and support for human perceived lightness. Works in all modern browsers and on touch devices.">
+        <meta itemprop="image" content="http://www.virtuosoft.eu/code/jquery-colorpickersliders/preview/jquery-colorpickersliders.jpg">
+
+        <script src="libraries/modernizr/modernizr-custom.min.js"></script>
+
+        <link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+        <link href="libraries/prettify/prettify.css" rel="stylesheet" type="text/css" media="all">
+        <link href="jquery-colorpickersliders/jquery.colorpickersliders.css" rel="stylesheet" type="text/css" media="all">
+        <link href="demo.css" rel="stylesheet" type="text/css" media="all">
+
+        <script src="libraries/jquery-1.9.0.min.js"></script>
+        <script src="libraries/prettify/prettify.js"></script>
+        <script src="libraries/tinycolor.js"></script>
+        <script src="jquery-colorpickersliders/jquery.colorpickersliders.js"></script>
+
+    </head>
+
+    <body>
+
+
+                <h2>Color picker in a popup</h2>
+                <p>
+                    <input type="text" class="a-popup" data-color-format="hex" value="GreenYellow"> <small>Hint: you can type in any CSS color (even named ones, like yellow).</small>
+					<button id="destroy" class=" btn btn-primary" type="button">Destroy</button>
+					<button id="reset" class=" btn btn-primary" type="button">Reset</button>
+				</p> 
+	
+    <script>
+                    $(".a-popup").ColorPickerSliders({
+                        order: {
+                            hsl: 1
+                        }
+                    });
+	</script>
+	<script src="main.js"></script>				
+                
+</body>
+</html>
+

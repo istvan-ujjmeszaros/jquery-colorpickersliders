@@ -343,8 +343,32 @@
                 }
             }
 
+	function  destroyColorPicker(){
+		//@imaguiraga colorPicker will have to be reinitialized   
+		if( container  instanceof jQuery){
+			hidePopup();
+			container.remove();
+			alreadyinitialized = false;
+		}
+	}
+	
+	function  resetColorPicker(){
+		//@imaguiraga recreate colorPicker with previous settings   
+		init();
+	}
+	
             function _bindEvents()
             {
+	//@imaguiraga binding colorpickersliders.destroy    
+	 triggerelement.on('colorpickersliders.destroy', function(e) {
+                    destroyColorPicker();
+                });
+				
+	//@imaguiraga binding colorpickersliders.reset   
+	 triggerelement.on('colorpickersliders.reset', function(e) {
+                    resetColorPicker();
+                });
+
                 triggerelement.on('colorpickersliders.updateColor', function(e, newcolor) {
                     updateColor(newcolor);
                 });
