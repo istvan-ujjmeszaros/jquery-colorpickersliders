@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v3.0.5
+ *  v3.1.0
  *
  *  An advanced responsive color selector with color swatches and support for
  *  human perceived lightness. Works in all modern browsers and on touch devices.
@@ -12,6 +12,10 @@
  *      http://www.virtuosoft.eu/code/css-colorpickersliders/
  *
  *  Copyright 2013 István Ujj-Mészáros
+ *
+ *  Thanks for the contributors:
+ *      imaguiraga - https://github.com/imaguiraga
+ *      balmasich - https://github.com/balmasich
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -41,26 +45,25 @@
         return this.each(function() {
 
             var alreadyinitialized = false,
-                settings,
-                triggerelement = $(this),
-                container,
-                elements,
-                swatches,
-                MAXLIGHT = 101, // 101 needed for bright colors (maybe due to rounding errors)
-                dragTarget = false,
-                lastUpdateTime = 0,
-                color = {
-                    tiny: null,
-                    hsla: null,
-                    rgba: null,
-                    cielch: null
-                },
-                MAXVALIDCHROMA = 144;   // maximum valid chroma value found convertible to rgb (blue)
+                    settings,
+                    triggerelement = $(this),
+                    container,
+                    elements,
+                    swatches,
+                    MAXLIGHT = 101, // 101 needed for bright colors (maybe due to rounding errors)
+                    dragTarget = false,
+                    lastUpdateTime = 0,
+                    color = {
+                        tiny: null,
+                        hsla: null,
+                        rgba: null,
+                        cielch: null
+                    },
+            MAXVALIDCHROMA = 144;   // maximum valid chroma value found convertible to rgb (blue)
 
             init();
 
-            function init()
-            {
+            function init() {
                 if (alreadyinitialized) {
                     return;
                 }
@@ -93,12 +96,10 @@
                 _updateAllElements();
             }
 
-            function updateColor(newcolor, disableinputupdate)
-            {
+            function updateColor(newcolor, disableinputupdate) {
                 var updatedcolor = tinycolor(newcolor);
 
-                if (updatedcolor.format)
-                {
+                if (updatedcolor.format) {
                     container.removeClass("cp-unconvertible-cie-color");
 
                     color.tiny = updatedcolor;
@@ -115,13 +116,12 @@
                 }
             }
 
-            function showPopup()
-            {
+            function showPopup() {
                 $('.cp-container.cp-popup').hide();
 
                 var viewportwidth = $(window).width(),
-                    offset = triggerelement.offset(),
-                    popuporiginalwidth;
+                        offset = triggerelement.offset(),
+                        popuporiginalwidth;
 
                 popuporiginalwidth = container.data('popup-original-width');
 
@@ -134,7 +134,7 @@
                     container.css('left', offset.left).width(popuporiginalwidth);
                 }
                 else if (popuporiginalwidth <= viewportwidth) {
-                    container.css('left',viewportwidth - popuporiginalwidth - 12).width(popuporiginalwidth);
+                    container.css('left', viewportwidth - popuporiginalwidth - 12).width(popuporiginalwidth);
                 }
                 else {
                     container.css('left', 0).width(viewportwidth - 12);
@@ -143,27 +143,25 @@
                 container.css('top', offset.top + triggerelement.outerHeight()).show();
             }
 
-            function hidePopup()
-            {
+            function hidePopup() {
                 container.hide();
             }
 
-            function _initSettings()
-            {
+            function _initSettings() {
                 settings = $.extend({
                     color: 'hsl(342, 52%, 70%)',
-                    swatches: ['FFFFFF','C0C0C0','808080','000000','FF0000','800000','FFFF00','808000','00FF00','008000','00FFFF','008080','0000FF','000080','FF00FF','800080'],
-                    customswatches: 'colorpickkersliders',     // false or a grop name
-                    connectedinput: false,          // can be a jquery object or a selector
+                    swatches: ['FFFFFF', 'C0C0C0', '808080', '000000', 'FF0000', '800000', 'FFFF00', '808000', '00FF00', '008000', '00FFFF', '008080', '0000FF', '000080', 'FF00FF', '800080'],
+                    customswatches: 'colorpickkersliders', // false or a grop name
+                    connectedinput: false, // can be a jquery object or a selector
                     flat: false,
                     disableautopopup: false,
-                    updateinterval: 30,             // update interval of the sliders while in drag (ms)
+                    updateinterval: 30, // update interval of the sliders while in drag (ms)
                     previewontriggerelement: true,
                     previewcontrasttreshold: 15,
-                    previewformat: 'rgb',           // rgb/hsl/hex
+                    previewformat: 'rgb', // rgb/hsl/hex
                     erroneousciecolormarkers: true,
-                    invalidcolorsopacity: 1,        // everything below 1 causes slightly slower responses
-                    finercierangeedges: true,       // can be disabled for faster responses
+                    invalidcolorsopacity: 1, // everything below 1 causes slightly slower responses
+                    finercierangeedges: true, // can be disabled for faster responses
                     titleswatchesadd: "Add color to swatches",
                     titleswatchesremove: "Remove color from swatches",
                     titleswatchesreset: "Reset to default swatches",
@@ -187,7 +185,7 @@
                         opacity: 0,
                         hsl: 1,
                         rgb: 2,
-                        cie: 3,     // cie sliders can increase response time of all sliders!
+                        cie: 3, // cie sliders can increase response time of all sliders!
                         preview: 4
                     };
                 }
@@ -197,17 +195,17 @@
                 }
 
                 settings.labels = $.extend({
-                        hslhue: 'HSL-Hue',
-                        hslsaturation: 'HSL-Saturation',
-                        hsllightness: 'HSL-Lightness',
-                        rgbred: 'RGB-Red',
-                        rgbgreen: 'RGB-Green',
-                        rgbblue: 'RGB-Blue',
-                        cielightness: 'CIE-Lightness',
-                        ciechroma: 'CIE-Chroma',
-                        ciehue: 'CIE-hue',
-                        opacity: 'Opacity',
-                        preview: 'Preview'
+                    hslhue: 'HSL-Hue',
+                    hslsaturation: 'HSL-Saturation',
+                    hsllightness: 'HSL-Lightness',
+                    rgbred: 'RGB-Red',
+                    rgbgreen: 'RGB-Green',
+                    rgbblue: 'RGB-Blue',
+                    cielightness: 'CIE-Lightness',
+                    ciechroma: 'CIE-Chroma',
+                    ciehue: 'CIE-hue',
+                    opacity: 'Opacity',
+                    preview: 'Preview'
                 }, options.labels);
 
                 // force preview when browser doesn't support css gradients
@@ -216,10 +214,9 @@
                 }
             }
 
-            function _buildHtml()
-            {
+            function _buildHtml() {
                 var sliders = [],
-                    color_picker_html = '';
+                        color_picker_html = '';
 
                 if (settings.order.opacity !== false) {
                     sliders[settings.order.opacity] = '<div class="cp-slider cp-opacity cp-transparency"><span>' + settings.labels.opacity + '</span><div class="cp-marker"></div></div>';
@@ -243,7 +240,7 @@
 
                 color_picker_html += '<div class="cp-sliders">';
 
-                for (var i=0; i<sliders.length; i++) {
+                for (var i = 0; i < sliders.length; i++) {
                     if (typeof sliders[i] === "undefined") {
                         continue;
                     }
@@ -254,7 +251,7 @@
                 color_picker_html += '</div>';
 
                 if (settings.swatches) {
-                    color_picker_html += '<div class="cp-swatches"><button type="button" class="add" title="'+ settings.titleswatchesadd + '"></button><button type="button" class="remove" title="'+ settings.titleswatchesremove + '"></button><button type="button" class="reset" title="'+ settings.titleswatchesreset + '"></button><ul></ul><div style="clear:both"></div></div>';
+                    color_picker_html += '<div class="cp-swatches"><button type="button" class="add" title="' + settings.titleswatchesadd + '"></button><button type="button" class="remove" title="' + settings.titleswatchesremove + '"></button><button type="button" class="reset" title="' + settings.titleswatchesreset + '"></button><ul></ul><div style="clear:both"></div></div>';
                 }
 
                 if (settings.flat) {
@@ -287,11 +284,10 @@
                 }
             }
 
-            function _initElements()
-            {
+            function _initElements() {
                 elements = {
                     connectedinput: false,
-                    actualswatch : false,
+                    actualswatch: false,
                     swatchescontainer: $(".cp-swatches", container),
                     swatches: $(".cp-swatches ul", container),
                     swatches_add: $(".cp-swatches button.add", container),
@@ -339,29 +335,24 @@
                 }
             }
 
-	function  destroyColorPicker(){
-		//@imaguiraga colorPicker will have to be reinitialized   
-		if( container  instanceof jQuery){
-			hidePopup();
-			container.remove();
-			alreadyinitialized = false;
-		}
-	}
-	
-	function  resetColorPicker(){
-		//@imaguiraga recreate colorPicker with previous settings   
-		init();
-	}
-	
-            function _bindEvents()
-            {
-	//@imaguiraga binding colorpickersliders.destroy    
-	 triggerelement.on('colorpickersliders.destroy', function(e) {
+            function  destroyColorPicker() {
+                if (container  instanceof jQuery) {
+                    hidePopup();
+                    container.remove();
+                    alreadyinitialized = false;
+                }
+            }
+
+            function  resetColorPicker() {
+                init();
+            }
+
+            function _bindEvents() {
+                triggerelement.on('colorpickersliders.destroy', function() {
                     destroyColorPicker();
                 });
-				
-	//@imaguiraga binding colorpickersliders.reset   
-	 triggerelement.on('colorpickersliders.reset', function(e) {
+
+                triggerelement.on('colorpickersliders.reset', function() {
                     resetColorPicker();
                 });
 
@@ -392,13 +383,13 @@
                     // and only input and button are focusable on iPad
                     // so it is safer to register click on any other than inputs
                     if (!triggerelement.is("input")) {
-                        $(triggerelement).on("click", function(ev){
+                        $(triggerelement).on("click", function(ev) {
                             showPopup();
 
                             ev.stopPropagation();
                         });
 
-                        $(document).on("click", function(){
+                        $(document).on("click", function() {
                             hidePopup();
                         });
                     }
@@ -428,23 +419,23 @@
                     return false;
                 });
 
-                elements.swatches.on("click", "li span", function(ev){
+                elements.swatches.on("click", "li span", function(ev) {
                     var color = $(this).css("background-color");
                     updateColor(color);
                     ev.preventDefault();
                 });
 
-                elements.swatches_add.on("click", function(ev){
+                elements.swatches_add.on("click", function(ev) {
                     _addCurrentColorToSwatches();
                     ev.preventDefault();
                 });
 
-                elements.swatches_remove.on("click", function(ev){
+                elements.swatches_remove.on("click", function(ev) {
                     _removeActualColorFromSwatches();
                     ev.preventDefault();
                 });
 
-                elements.swatches_reset.on("click", function(ev){
+                elements.swatches_reset.on("click", function(ev) {
                     _resetSwatches();
                     ev.preventDefault();
                 });
@@ -609,7 +600,7 @@
                     _updateAllElements();
                 });
 
-                elements.sliders.preview.on("click", function(){
+                elements.sliders.preview.on("click", function() {
                     this.select();
                 });
 
@@ -620,8 +611,7 @@
 
                     var percent = _updateMarkerPosition(dragTarget, ev);
 
-                    switch (dragTarget)
-                    {
+                    switch (dragTarget) {
                         case "hue":
                             _updateColorsProperty('hsla', 'h', 3.6 * percent);
                             break;
@@ -680,11 +670,10 @@
 
             }
 
-            function _parseCustomSwatches()
-            {
+            function _parseCustomSwatches() {
                 swatches = [];
 
-                for (var i=0; i<settings.swatches.length; i++) {
+                for (var i = 0; i < settings.swatches.length; i++) {
                     var color = tinycolor(settings.swatches[i]);
 
                     if (color.format) {
@@ -693,8 +682,7 @@
                 }
             }
 
-            function _renderSwatches()
-            {
+            function _renderSwatches() {
                 if (!settings.swatches) {
                     return;
                 }
@@ -703,9 +691,9 @@
                     var customswatches = false;
 
                     try {
-                        customswatches = JSON.parse(localStorage.getItem("swatches-"+settings.customswatches));
+                        customswatches = JSON.parse(localStorage.getItem("swatches-" + settings.customswatches));
                     }
-                    catch(err) {
+                    catch (err) {
                     }
 
                     if (customswatches) {
@@ -721,7 +709,7 @@
 
                 if (swatches instanceof Array) {
                     elements.swatches.html("");
-                    for(var i=0; i<swatches.length; i++) {
+                    for (var i = 0; i < swatches.length; i++) {
                         var color = tinycolor(swatches[i]);
 
                         if (color.format) {
@@ -733,8 +721,7 @@
                 _findActualColorsSwatch();
             }
 
-            function _findActualColorsSwatch()
-            {
+            function _findActualColorsSwatch() {
                 var found = false;
 
                 $("span", elements.swatches).filter(function() {
@@ -775,21 +762,18 @@
                 }
             }
 
-            function _storeSwatches()
-            {
-                localStorage.setItem("swatches-"+settings.customswatches, JSON.stringify(swatches));
+            function _storeSwatches() {
+                localStorage.setItem("swatches-" + settings.customswatches, JSON.stringify(swatches));
             }
 
-            function _addCurrentColorToSwatches()
-            {
+            function _addCurrentColorToSwatches() {
                 swatches.unshift(color.tiny.toRgbString());
                 _storeSwatches();
 
                 $(document).trigger("colorpickersliders.changeswatches");
             }
 
-            function _removeActualColorFromSwatches()
-            {
+            function _removeActualColorFromSwatches() {
                 var index = swatches.indexOf(color.tiny.toRgbString());
 
                 if (index !== -1) {
@@ -800,8 +784,7 @@
                 }
             }
 
-            function _resetSwatches()
-            {
+            function _resetSwatches() {
                 if (confirm("Do you really want to reset the swatches? All customizations will be lost!")) {
                     _parseCustomSwatches();
 
@@ -811,9 +794,8 @@
                 }
             }
 
-            function _updateColorsProperty(format, property, value)
-            {
-                switch(format) {
+            function _updateColorsProperty(format, property, value) {
+                switch (format) {
                     case 'hsla':
 
                         color.hsla[property] = value;
@@ -856,8 +838,7 @@
                 }
             }
 
-            function _updateMarkerPosition(slidername, ev)
-            {
+            function _updateMarkerPosition(slidername, ev) {
                 var percent = $.fn.ColorPickerSliders.calculateEventPositionPercentage(ev, elements.sliders[slidername]);
 
                 elements.sliders[slidername + '_marker'].data("position", percent);
@@ -867,15 +848,13 @@
 
             var updateAllElementsTimeout;
 
-            function _updateAllElementsTimer(disableinputupdate)
-            {
+            function _updateAllElementsTimer(disableinputupdate) {
                 updateAllElementsTimeout = setTimeout(function() {
                     _updateAllElements(disableinputupdate);
                 }, settings.updateinterval);
             }
 
-            function _updateAllElements(disableinputupdate)
-            {
+            function _updateAllElements(disableinputupdate) {
                 clearTimeout(updateAllElementsTimeout);
 
                 if (Date.now() - lastUpdateTime < settings.updateinterval) {
@@ -892,21 +871,25 @@
                 if (settings.order.opacity !== false) {
                     _renderOpacity();
                 }
+
                 if (settings.order.hsl !== false) {
                     _renderHue();
                     _renderSaturation();
                     _renderLightness();
                 }
+
                 if (settings.order.rgb !== false) {
                     _renderRed();
                     _renderGreen();
                     _renderBlue();
                 }
+
                 if (settings.order.cie !== false) {
                     _renderCieLightness();
                     _renderCieChroma();
                     _renderCieHue();
                 }
+
                 if (settings.order.preview !== false) {
                     _renderPreview();
                 }
@@ -933,14 +916,12 @@
                 settings.onchange(container, color);
             }
 
-            function _updateConnectedInput()
-            {
+            function _updateConnectedInput() {
                 if (elements.connectedinput) {
                     elements.connectedinput.each(function(index, element) {
                         var $element = $(element);
 
-                        switch ($element.data('color-format'))
-                        {
+                        switch ($element.data('color-format')) {
                             case 'hex':
                                 $element.val(color.tiny.toHexString());
                                 break;
@@ -948,7 +929,7 @@
                                 $element.val(color.tiny.toHslString());
                                 break;
                             case 'rgb':
-                            /* falls through */
+                                /* falls through */
                             default:
                                 $element.val(color.tiny.toRgbString());
                                 break;
@@ -957,57 +938,49 @@
                 }
             }
 
-            function _renderHue()
-            {
+            function _renderHue() {
                 $.fn.ColorPickerSliders.setGradient(elements.sliders.hue, $.fn.ColorPickerSliders.getScaledGradientStops(color.hsla, "h", 0, 360, 7));
 
                 elements.sliders.hue_marker.css("left", color.hsla.h / 360 * 100 + "%");
             }
 
-            function _renderSaturation()
-            {
+            function _renderSaturation() {
                 $.fn.ColorPickerSliders.setGradient(elements.sliders.saturation, $.fn.ColorPickerSliders.getScaledGradientStops(color.hsla, "s", 0, 1, 2));
 
                 elements.sliders.saturation_marker.css("left", color.hsla.s * 100 + "%");
             }
 
-            function _renderLightness()
-            {
+            function _renderLightness() {
                 $.fn.ColorPickerSliders.setGradient(elements.sliders.lightness, $.fn.ColorPickerSliders.getScaledGradientStops(color.hsla, "l", 0, 1, 3));
 
                 elements.sliders.lightness_marker.css("left", color.hsla.l * 100 + "%");
             }
 
-            function _renderOpacity()
-            {
+            function _renderOpacity() {
                 $.fn.ColorPickerSliders.setGradient(elements.sliders.opacity, $.fn.ColorPickerSliders.getScaledGradientStops(color.hsla, "a", 0, 1, 2));
 
                 elements.sliders.opacity_marker.css("left", color.hsla.a * 100 + "%");
             }
 
-            function _renderRed()
-            {
+            function _renderRed() {
                 $.fn.ColorPickerSliders.setGradient(elements.sliders.red, $.fn.ColorPickerSliders.getScaledGradientStops(color.rgba, "r", 0, 255, 2));
 
                 elements.sliders.red_marker.css("left", color.rgba.r / 255 * 100 + "%");
             }
 
-            function _renderGreen()
-            {
+            function _renderGreen() {
                 $.fn.ColorPickerSliders.setGradient(elements.sliders.green, $.fn.ColorPickerSliders.getScaledGradientStops(color.rgba, "g", 0, 255, 2));
 
                 elements.sliders.green_marker.css("left", color.rgba.g / 255 * 100 + "%");
             }
 
-            function _renderBlue()
-            {
+            function _renderBlue() {
                 $.fn.ColorPickerSliders.setGradient(elements.sliders.blue, $.fn.ColorPickerSliders.getScaledGradientStops(color.rgba, "b", 0, 255, 2));
 
                 elements.sliders.blue_marker.css("left", color.rgba.b / 255 * 100 + "%");
             }
 
-            function _extendCieGradientStops(gradientstops, property)
-            {
+            function _extendCieGradientStops(gradientstops, property) {
                 if (settings.invalidcolorsopacity === 1 || !settings.finercierangeedges) {
                     return gradientstops;
                 }
@@ -1018,17 +991,17 @@
 
                 var tmparray = [];
 
-                for (var i=1; i<gradientstops.length; i++) {
-                    if (gradientstops[i].isok !== gradientstops[i-1].isok) {
-                        var steps = Math.round(gradientstops[i].position)-Math.round(gradientstops[i-1].position),
-                            extendedgradientstops = $.fn.ColorPickerSliders.getScaledGradientStops(gradientstops[i].rawcolor, property, gradientstops[i-1].rawcolor[property], gradientstops[i].rawcolor[property], steps, settings.invalidcolorsopacity, gradientstops[i-1].position, gradientstops[i].position);
+                for (var i = 1; i < gradientstops.length; i++) {
+                    if (gradientstops[i].isok !== gradientstops[i - 1].isok) {
+                        var steps = Math.round(gradientstops[i].position) - Math.round(gradientstops[i - 1].position),
+                                extendedgradientstops = $.fn.ColorPickerSliders.getScaledGradientStops(gradientstops[i].rawcolor, property, gradientstops[i - 1].rawcolor[property], gradientstops[i].rawcolor[property], steps, settings.invalidcolorsopacity, gradientstops[i - 1].position, gradientstops[i].position);
 
-                        for (var j=0; j<extendedgradientstops.length; j++) {
-                            if (extendedgradientstops[j].isok !== gradientstops[i-1].isok) {
+                        for (var j = 0; j < extendedgradientstops.length; j++) {
+                            if (extendedgradientstops[j].isok !== gradientstops[i - 1].isok) {
                                 tmparray.push(extendedgradientstops[j]);
 
-                                if (j>0) {
-                                    tmparray.push(extendedgradientstops[j-1]);
+                                if (j > 0) {
+                                    tmparray.push(extendedgradientstops[j - 1]);
                                 }
 
                                 break;
@@ -1040,8 +1013,7 @@
                 return $.merge(tmparray, gradientstops);
             }
 
-            function _renderCieLightness()
-            {
+            function _renderCieLightness() {
                 var gradientstops = $.fn.ColorPickerSliders.getScaledGradientStops(color.cielch, "l", 0, 100, 10, settings.invalidcolorsopacity);
 
                 gradientstops = _extendCieGradientStops(gradientstops, "l");
@@ -1051,8 +1023,7 @@
                 elements.sliders.cielightness_marker.css("left", color.cielch.l / MAXLIGHT * 100 + "%");
             }
 
-            function _renderCieChroma()
-            {
+            function _renderCieChroma() {
                 var gradientstops = $.fn.ColorPickerSliders.getScaledGradientStops(color.cielch, "c", 0, MAXVALIDCHROMA, 5, settings.invalidcolorsopacity);
 
                 gradientstops = _extendCieGradientStops(gradientstops, "c");
@@ -1062,8 +1033,7 @@
                 elements.sliders.ciechroma_marker.css("left", color.cielch.c / MAXVALIDCHROMA * 100 + "%");
             }
 
-            function _renderCieHue()
-            {
+            function _renderCieHue() {
                 var gradientstops = $.fn.ColorPickerSliders.getScaledGradientStops(color.cielch, "h", 0, 360, 28, settings.invalidcolorsopacity);
 
                 gradientstops = _extendCieGradientStops(gradientstops, "h");
@@ -1073,14 +1043,12 @@
                 elements.sliders.ciehue_marker.css("left", color.cielch.h / 360 * 100 + "%");
             }
 
-            function _renderPreview()
-            {
+            function _renderPreview() {
                 elements.sliders.preview.css("background", $.fn.ColorPickerSliders.csscolor(color.rgba));
 
                 var colorstring;
 
-                switch (settings.previewformat)
-                {
+                switch (settings.previewformat) {
                     case 'hex':
                         colorstring = color.tiny.toHexString();
                         break;
@@ -1088,7 +1056,7 @@
                         colorstring = color.tiny.toHslString();
                         break;
                     case 'rgb':
-                    /* falls through */
+                        /* falls through */
                     default:
                         colorstring = color.tiny.toRgbString();
                         break;
@@ -1101,8 +1069,7 @@
 
     };
 
-    $.fn.ColorPickerSliders.getEventCoordinates = function(ev)
-    {
+    $.fn.ColorPickerSliders.getEventCoordinates = function(ev) {
         if (typeof ev.pageX !== "undefined") {
             return {
                 pageX: ev.originalEvent.pageX,
@@ -1117,8 +1084,7 @@
         }
     };
 
-    $.fn.ColorPickerSliders.calculateEventPositionPercentage = function(ev, containerElement)
-    {
+    $.fn.ColorPickerSliders.calculateEventPositionPercentage = function(ev, containerElement) {
         var c = $.fn.ColorPickerSliders.getEventCoordinates(ev);
 
         var xsize = containerElement.width(),
@@ -1137,8 +1103,7 @@
         return percent;
     };
 
-    $.fn.ColorPickerSliders.gradientSupported = function()
-    {
+    $.fn.ColorPickerSliders.gradientSupported = function() {
         var testelement = document.createElement('detectGradientSupport').style;
 
         testelement.backgroundImage = "linear-gradient(left top, #9f9, white)";
@@ -1156,8 +1121,7 @@
         }
     };
 
-    $.fn.ColorPickerSliders.getScaledGradientStops = function(color, scalableproperty, minvalue, maxvalue, steps, invalidcolorsopacity, minposition, maxposition)
-    {
+    $.fn.ColorPickerSliders.getScaledGradientStops = function(color, scalableproperty, minvalue, maxvalue, steps, invalidcolorsopacity, minposition, maxposition) {
         if (typeof invalidcolorsopacity === "undefined") {
             invalidcolorsopacity = 1;
         }
@@ -1171,13 +1135,13 @@
         }
 
         var gradientStops = [],
-            diff = maxvalue - minvalue,
-            isok = true;
+                diff = maxvalue - minvalue,
+                isok = true;
 
-        for(var i=0; i<steps; ++i) {
-            var currentstage = i / (steps-1),
-                modifiedcolor = $.fn.ColorPickerSliders.modifyColor(color, scalableproperty, currentstage * diff + minvalue),
-                csscolor;
+        for (var i = 0; i < steps; ++i) {
+            var currentstage = i / (steps - 1),
+                    modifiedcolor = $.fn.ColorPickerSliders.modifyColor(color, scalableproperty, currentstage * diff + minvalue),
+                    csscolor;
 
             if (invalidcolorsopacity < 1) {
                 var stagergb = $.fn.ColorPickerSliders.lch2rgb(modifiedcolor, invalidcolorsopacity);
@@ -1191,7 +1155,7 @@
 
             gradientStops[i] = {
                 color: csscolor,
-                position: currentstage * (maxposition-minposition) + minposition,
+                position: currentstage * (maxposition - minposition) + minposition,
                 isok: isok,
                 rawcolor: modifiedcolor
             };
@@ -1200,8 +1164,7 @@
         return gradientStops;
     };
 
-    $.fn.ColorPickerSliders.setGradient = function(element, gradientstops)
-    {
+    $.fn.ColorPickerSliders.setGradient = function(element, gradientstops) {
         gradientstops.sort(function(a, b) {
             return a.position - b.position;
         });
@@ -1232,14 +1195,13 @@
         element.css("background", noprefix);
     };
 
-    $.fn.ColorPickerSliders.isGoodRgb = function(rgb)
-    {
+    $.fn.ColorPickerSliders.isGoodRgb = function(rgb) {
         // the default acceptable values are out of 0..255 due to
         // rounding errors with yellow and blue colors (258, -1)
         var maxacceptable = 258;
         var minacceptable = -1;
 
-        if (rgb.r>maxacceptable || rgb.g>maxacceptable || rgb.b>maxacceptable || rgb.r<minacceptable || rgb.g<minacceptable || rgb.b<minacceptable) {
+        if (rgb.r > maxacceptable || rgb.g > maxacceptable || rgb.b > maxacceptable || rgb.r < minacceptable || rgb.g < minacceptable || rgb.b < minacceptable) {
             return false;
         }
         else {
@@ -1254,8 +1216,7 @@
         }
     };
 
-    $.fn.ColorPickerSliders.rgb2lch = function(rgb)
-    {
+    $.fn.ColorPickerSliders.rgb2lch = function(rgb) {
         var lch = $.fn.ColorPickerSliders.CIELab2CIELCH($.fn.ColorPickerSliders.XYZ2CIELab($.fn.ColorPickerSliders.rgb2XYZ(rgb)));
 
         if (rgb.hasOwnProperty('a')) {
@@ -1265,16 +1226,14 @@
         return lch;
     };
 
-    $.fn.ColorPickerSliders.lch2rgb = function(lch, invalidcolorsopacity)
-    {
-        if (typeof  invalidcolorsopacity === "undefined") {
+    $.fn.ColorPickerSliders.lch2rgb = function(lch, invalidcolorsopacity) {
+        if (typeof invalidcolorsopacity === "undefined") {
             invalidcolorsopacity = 1;
         }
 
         var rgb = $.fn.ColorPickerSliders.XYZ2rgb($.fn.ColorPickerSliders.CIELab2XYZ($.fn.ColorPickerSliders.CIELCH2CIELab(lch)));
 
-        if ($.fn.ColorPickerSliders.isGoodRgb(rgb))
-        {
+        if ($.fn.ColorPickerSliders.isGoodRgb(rgb)) {
             if (lch.hasOwnProperty('a')) {
                 rgb.a = lch.a;
             }
@@ -1285,9 +1244,9 @@
         }
 
         var tmp = $.extend({}, lch),
-            lastbadchroma = tmp.c,
-            lastgoodchroma = -1,
-            loops = 0;
+                lastbadchroma = tmp.c,
+                lastgoodchroma = -1,
+                loops = 0;
 
         do {
             ++loops;
@@ -1302,7 +1261,7 @@
             else {
                 lastbadchroma = tmp.c;
             }
-        } while(Math.abs(lastbadchroma - lastgoodchroma) > 0.9 && loops < 100);
+        } while (Math.abs(lastbadchroma - lastgoodchroma) > 0.9 && loops < 100);
 
         if (lch.hasOwnProperty('a')) {
             rgb.a = lch.a;
@@ -1330,8 +1289,7 @@
         return rgb;
     };
 
-    $.fn.ColorPickerSliders.modifyColor = function(color, property, value)
-    {
+    $.fn.ColorPickerSliders.modifyColor = function(color, property, value) {
         var modifiedcolor = $.extend({}, color);
 
         if (!color.hasOwnProperty(property)) {
@@ -1343,14 +1301,13 @@
         return modifiedcolor;
     };
 
-    $.fn.ColorPickerSliders.csscolor = function(color, invalidcolorsopacity)
-    {
-        if (typeof  invalidcolorsopacity === "undefined") {
+    $.fn.ColorPickerSliders.csscolor = function(color, invalidcolorsopacity) {
+        if (typeof invalidcolorsopacity === "undefined") {
             invalidcolorsopacity = 1;
         }
 
         var $return = false,
-            tmpcolor = $.extend({}, color);
+                tmpcolor = $.extend({}, color);
 
         if (tmpcolor.hasOwnProperty('c')) {
             // CIE-LCh
@@ -1375,8 +1332,7 @@
         return $return;
     };
 
-    $.fn.ColorPickerSliders.rgb2XYZ = function(rgb)
-    {
+    $.fn.ColorPickerSliders.rgb2XYZ = function(rgb) {
         var XYZ = {};
 
         var r = (rgb.r / 255);
@@ -1416,8 +1372,7 @@
         return XYZ;
     };
 
-    $.fn.ColorPickerSliders.XYZ2CIELab = function(XYZ)
-    {
+    $.fn.ColorPickerSliders.XYZ2CIELab = function(XYZ) {
         var CIELab = {};
 
         // Observer = 2°, Illuminant = D65
@@ -1453,8 +1408,7 @@
         return CIELab;
     };
 
-    $.fn.ColorPickerSliders.CIELab2CIELCH = function(CIELab)
-    {
+    $.fn.ColorPickerSliders.CIELab2CIELCH = function(CIELab) {
         var CIELCH = {};
 
         CIELCH.l = CIELab.l;
@@ -1472,8 +1426,7 @@
         return CIELCH;
     };
 
-    $.fn.ColorPickerSliders.CIELCH2CIELab = function(CIELCH)
-    {
+    $.fn.ColorPickerSliders.CIELCH2CIELab = function(CIELCH) {
         var CIELab = {};
 
         CIELab.l = CIELCH.l;
@@ -1483,8 +1436,7 @@
         return CIELab;
     };
 
-    $.fn.ColorPickerSliders.CIELab2XYZ = function(CIELab)
-    {
+    $.fn.ColorPickerSliders.CIELab2XYZ = function(CIELab) {
         var XYZ = {};
 
         XYZ.y = (CIELab.l + 16) / 116;
@@ -1520,8 +1472,7 @@
         return XYZ;
     };
 
-    $.fn.ColorPickerSliders.XYZ2rgb = function(XYZ)
-    {
+    $.fn.ColorPickerSliders.XYZ2rgb = function(XYZ) {
         var rgb = {};
 
         // Observer = 2°, Illuminant = D65
