@@ -8,8 +8,8 @@
  *  An advanced responsive color selector with color swatches and support for
  *  human perceived lightness. Works in all modern browsers and on touch devices.
  *
- *      https://github.com/istvan-meszaros/css-colorpickersliders
- *      http://www.virtuosoft.eu/code/css-colorpickersliders/
+ *      https://github.com/istvan-ujjmeszaros/jquery-colorpickersliders
+ *      http://virtuosoft.eu/code/jquery-colorpickersliders/
  *
  *  Copyright 2013 István Ujj-Mészáros
  *
