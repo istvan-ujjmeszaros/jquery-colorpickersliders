@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v4.1.0
+ *  v4.1.1
  *
  *  An advanced responsive color selector with color swatches and support for
  *  human perceived lightness. Works in all modern browsers and on touch devices.
@@ -76,6 +76,11 @@
                 }
                 else if ($.fn.ColorPickerSliders.svgSupported()) {
                     rendermode = "svg";
+                }
+
+                // force preview when browser doesn't support css gradients
+                if ((!settings.order.hasOwnProperty('preview') || settings.order.preview === false) && !rendermode) {
+                    settings.order.preview = 10;
                 }
 
                 _initSettings();
@@ -218,11 +223,6 @@
                     opacity: 'Opacity',
                     preview: 'Preview'
                 }, options.labels);
-
-                // force preview when browser doesn't support css gradients
-                if ((!settings.order.hasOwnProperty('preview') || settings.order.preview === false) && !$.fn.ColorPickerSliders.gradientSupported() && !$.fn.ColorPickerSliders.svgSupported()) {
-                    settings.order.preview = 10;
-                }
             }
 
             function _buildHtml() {
@@ -1234,9 +1234,9 @@
         webkit += gradientstring;
         noprefix += gradientstring;
 
-        element.css("background-image", oldwebkit);
-        element.css("background-image", webkit);
         element.css("background-image", noprefix);
+        element.css("background-image", webkit);
+        element.css("background-image", oldwebkit);
     };
 
     $.fn.ColorPickerSliders.renderSVG = function(element, gradientstops) {
