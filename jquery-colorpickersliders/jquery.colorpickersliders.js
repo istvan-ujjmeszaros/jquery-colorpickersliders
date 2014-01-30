@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v4.0.0
+ *  v4.1.0
  *
  *  An advanced responsive color selector with color swatches and support for
  *  human perceived lightness. Works in all modern browsers and on touch devices.
@@ -125,6 +125,8 @@
             }
 
             function showPopup() {
+                container.data("justshown", true);
+
                 $('.cp-container.cp-popup').hide();
 
                 var viewportwidth = $(window).width(),
@@ -158,6 +160,7 @@
             function _initSettings() {
                 settings = $.extend({
                     color: 'hsl(342, 52%, 70%)',
+                    preventtouchkeyboardonshow: true,
                     swatches: ['FFFFFF', 'C0C0C0', '808080', '000000', 'FF0000', '800000', 'FFFF00', '808000', '00FF00', '008000', '00FFFF', '008080', '0000FF', '000080', 'FF00FF', '800080'],
                     customswatches: 'colorpickkersliders', // false or a grop name
                     connectedinput: false, // can be a jquery object or a selector
@@ -386,6 +389,20 @@
                         triggerelement.attr("tabindex", -1);
                     }
 
+                    if (settings.preventtouchkeyboardonshow) {
+                        $(triggerelement).prop("readonly", true);
+
+                        $(triggerelement).on("click", function(ev) {
+                            if (container.data("justshown")) {
+                                container.data("justshown", false);
+                            }
+                            else {
+                                $(triggerelement).prop("readonly", false);
+                                ev.stopPropagation();
+                            }
+                        });
+                    }
+
                     // buttons doesn't get focus in webkit browsers
                     // https://bugs.webkit.org/show_bug.cgi?id=22261
                     // and only input and button are focusable on iPad
@@ -410,6 +427,10 @@
 
                     $(triggerelement).on("blur", function(ev) {
                         hidePopup();
+
+                        if (settings.preventtouchkeyboardonshow) {
+                            $(triggerelement).prop("readonly", true);
+                        }
 
                         ev.stopPropagation();
                     });
