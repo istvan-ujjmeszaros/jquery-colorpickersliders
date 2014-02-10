@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v4.1.4
+ *  v4.1.5
  *
  *  An advanced responsive color selector with color swatches and support for
  *  human perceived lightness. Works in all modern browsers and on touch devices.
@@ -47,6 +47,7 @@
             var alreadyinitialized = false,
                     settings,
                     triggerelement = $(this),
+                    triggerelementisinput = triggerelement.is("input"),
                     container,
                     elements,
                     swatches,
@@ -88,7 +89,7 @@
                 _buildHtml();
                 _initElements();
 
-                if (triggerelement.is("input")) {
+                if (triggerelementisinput) {
                     color.tiny = tinycolor(triggerelement.val());
 
                     if (!color.tiny.format) {
@@ -266,7 +267,7 @@
                 }
 
                 if (settings.flat) {
-                    if (triggerelement.is("input")) {
+                    if (triggerelementisinput) {
                         container = $('<div class="cp-container"></div>').insertAfter(triggerelement);
                     }
                     else {
@@ -407,7 +408,7 @@
                     // https://bugs.webkit.org/show_bug.cgi?id=22261
                     // and only input and button are focusable on iPad
                     // so it is safer to register click on any other than inputs
-                    if (!triggerelement.is("input")) {
+                    if (!triggerelementisinput) {
                         $(triggerelement).on("click", function(ev) {
                             showPopup();
 
@@ -931,13 +932,13 @@
 
                 if ((100 - color.cielch.l) * color.cielch.a < settings.previewcontrasttreshold) {
                     elements.all_sliders.css('color', '#000');
-                    if (settings.previewontriggerelement) {
+                    if (triggerelementisinput && settings.previewontriggerelement) {
                         triggerelement.css('background', color.tiny.toRgbString()).css('color', '#000');
                     }
                 }
                 else {
                     elements.all_sliders.css('color', '#fff');
-                    if (settings.previewontriggerelement) {
+                    if (triggerelementisinput && settings.previewontriggerelement) {
                         triggerelement.css('background', color.tiny.toRgbString()).css('color', '#fff');
                     }
                 }
