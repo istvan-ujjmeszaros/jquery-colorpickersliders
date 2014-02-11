@@ -3,7 +3,7 @@
 
 /*!=========================================================================
  *  jQuery Color Picker Sliders
- *  v4.1.5
+ *  v4.1.6
  *
  *  An advanced responsive color selector with color swatches and support for
  *  human perceived lightness. Works in all modern browsers and on touch devices.
@@ -1155,12 +1155,12 @@
         var testelement = document.createElement('detectGradientSupport').style;
 
         try {
-            testelement.backgroundImage = "linear-gradient(left top, #9f9, white)";
+            testelement.backgroundImage = "linear-gradient(to top left, #9f9, white)";
             testelement.backgroundImage = "-o-linear-gradient(left top, #9f9, white)";
             testelement.backgroundImage = "-moz-linear-gradient(left top, #9f9, white)";
-            testelement.backgroundImage = "-webkit-linear-gradient(left top, #9f9, white)";
+            testelement.backgroundImage = "-webkit-linear-gradient(bottom right, #9f9, white)";
             testelement.backgroundImage = "-ms-linear-gradient(left top, #9f9, white)";
-            testelement.backgroundImage = "-webkit-gradient(linear, left top, right bottom, from(#9f9), to(white))";
+            testelement.backgroundImage = "-webkit-gradient(linear, 100% 100%, 0% 0%, from(#9f9), to(white))";
 
             if (testelement.backgroundImage.indexOf("gradient") === -1) {
                 return false;
@@ -1207,8 +1207,8 @@
             }
 
             gradientStops[i] = {
-                color: csscolor,
-                position: currentstage * (maxposition - minposition) + minposition,
+                color: tinycolor(csscolor).toRgbString(),
+                position: Math.round((currentstage * (maxposition - minposition) + minposition) * 100) / 100,
                 isok: isok,
                 rawcolor: modifiedcolor
             };
@@ -1238,9 +1238,9 @@
         webkit += gradientstring;
         noprefix += gradientstring;
 
-        element.css("background-image", noprefix);
-        element.css("background-image", webkit);
         element.css("background-image", oldwebkit);
+        element.css("background-image", webkit);
+        element.css("background-image", noprefix);
     };
 
     $.fn.ColorPickerSliders.renderSVG = function(element, gradientstops) {
