@@ -95,7 +95,7 @@
                 if (triggerelementisinput) {
                     color.tiny = tinycolor(triggerelement.val());
 
-                    if (!color.tiny.format) {
+                    if (!color.tiny._format) {
                         color.tiny = tinycolor(settings.color);
                     }
                 }
@@ -116,7 +116,7 @@
             function updateColor(newcolor, disableinputupdate) {
                 var updatedcolor = tinycolor(newcolor);
 
-                if (updatedcolor.format) {
+                if (updatedcolor._format) {
                     container.removeClass("cp-unconvertible-cie-color");
 
                     color.tiny = updatedcolor;
@@ -709,7 +709,7 @@
                 for (var i = 0; i < settings.swatches.length; i++) {
                     var color = tinycolor(settings.swatches[i]);
 
-                    if (color.format) {
+                    if (color._format) {
                         swatches.push(color.toRgbString());
                     }
                 }
@@ -745,7 +745,7 @@
                     for (var i = 0; i < swatches.length; i++) {
                         var color = tinycolor(swatches[i]);
 
-                        if (color.format) {
+                        if (color._format) {
                             elements.swatches.append($("<li></li>").append($("<span></span>").css("background-color", color.toRgbString())));
                         }
                     }
